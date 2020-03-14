@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!((display==='/Register')||(display==='/Login')||(display==='/ToLogin'))">
+  <div  v-show="!((display==='/Register')||(display==='/Login')||(display==='/ToLogin'))">
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -17,7 +17,7 @@
         <!--<h2 style="float: left;margin-left: 10px">缔 造 者</h2>-->
       </el-menu-item>
       <el-menu-item  index="1" style="margin-left: 3%" v-on:click="GoNextPage('')">首页</el-menu-item>
-      <el-menu-item  index="2" style="margin-left: 2%" v-on:click="GoNextPage('')">最新资讯</el-menu-item>
+      <el-menu-item  index="2" style="margin-left: 2%" v-on:click="GoNextPage('News')">最新资讯</el-menu-item>
       <el-menu-item  index="3" style="margin-left: 2%" v-on:click="GoNextPage('')">交流园地</el-menu-item>
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
       <el-menu-item  index="5" style="margin-left: 2%" v-on:click="GoNextPage('')">作品展示</el-menu-item>
@@ -25,20 +25,42 @@
       <el-menu-item  index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
       <el-menu-item  index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
     </el-menu>
+
+
+    <el-container>
+      <el-aside width="20%">Aside</el-aside>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>Main</el-main>
+      </el-container>
+    </el-container>
+
+
+
+    <el-container>
+      <el-aside width="20%">Aside</el-aside>
+      <el-container>
+        <el-header>Header</el-header>
+        <el-main>Main</el-main>
+        <el-footer>Footer</el-footer>
+      </el-container>
+    </el-container>
+
+
+
   </div>
 
 </template>
-
 <script>
     export default {
       name: "Home.vue",
-      data() {
+    /*  name: "Home",*/
+        data() {
         return {
           activeIndex: '1',
           display:''
         }
       },
-
         methods: {
           handleSelect(key, keyPath) {
             console.log(key, keyPath);
@@ -70,4 +92,41 @@
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
   }
+
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+
+
+
 </style>

@@ -5,7 +5,7 @@ import Register from '@/components/RegisterLogin/Register.vue'
 import ToLogin from '@/components/RegisterLogin/ToLogin.vue'
 import Home from '@/components/Home/Home.vue'
 import Login from '@/components/RegisterLogin/Login.vue'
-
+import News from './../components/NewsMessage/News'
 Vue.use(Router)
 
 export default new Router({
@@ -30,5 +30,12 @@ export default new Router({
       name: 'Login',
       component: Login
     },
+    {
+      path: '/News',
+      name: 'News',
+      component: News
+    },
+
+
   ]
 })

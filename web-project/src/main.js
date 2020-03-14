@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-
+import Home from './components/Home/Home.vue'
 Vue.config.productionTip = false
 
 import axios from 'axios'
@@ -20,6 +20,8 @@ Vue.use(VueCookie)
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: { App},
   template: '<App/>'
+/*  components:{Home},
+  template:'<Home/>'*/
 })
