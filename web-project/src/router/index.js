@@ -6,6 +6,7 @@ import ToLogin from '@/components/RegisterLogin/ToLogin.vue'
 import Home from '@/components/Home/Home.vue'
 import Login from '@/components/RegisterLogin/Login.vue'
 import News from './../components/NewsMessage/News'
+import LoginSystem from './../components/System/LoginSystem'
 Vue.use(Router)
 
 export default new Router({
@@ -35,7 +36,27 @@ export default new Router({
       name: 'News',
       component: News
     },
-
+    {
+      path: '/HelloWorld',
+      name: 'HelloWorld',
+      component: HelloWorld
+    },
+    {
+      path: '/LoginSystem',
+      name: 'LoginSystem',
+      component: LoginSystem,
+     /* children:[
+        {
+          path: 'admin',
+          name: 'admin',
+          component: admin,
+        }
+      ]*/
+    },
 
   ]
 })
+
+
+
+

@@ -1,13 +1,70 @@
 <template>
+<div>
+<h1 style="color: blueviolet;margin-top: 10%">管理员登录</h1>
+  <el-form>
+    <el-form-item style="margin-top: 5%">
+      <label style="font-size: 20px;vertical-align:bottom;" >账号</label><el-input style="margin-left: 10px;" v-model="users.account" />
+    </el-form-item>
+    <el-form-item style="margin-top: 3%">
+      <label style="font-size: 20px;vertical-align:bottom;" >密码</label><el-input style="margin-left: 10px;" v-model="users.password" />
+    </el-form-item>
+    <el-form-item style="margin-top: 0;padding: 0">
 
+      <el-button  type="primary" style="width: 25%;margin-top: 30px;margin-left: 3.5%">登录</el-button>
+      <div v-show="users.Tips">
+        <h4 style="color: red;margin-left: 3.8%">账号或密码不正确</h4>
+      </div>
+    </el-form-item>
+  </el-form>
+ <router-view/>
+</div>
 </template>
 
 <script>
+  import routes from './../../router'
+  import admin from './admin'
     export default {
-        name: "LoginSystem.vue"
+        name: "LoginSystem.vue",
+      data(){
+          return{
+            users:{
+              password:'',
+              account:'',
+              Tips:false
+            }
+          }
+      },
+      methods:{
+
+      },
+      mounted()
+      {
+
+        //动态添加路由
+        this.$router.addRoutes([
+        {
+          path: '/admin',
+          name: 'admin',
+          component: admin,
+          meta:{
+            user_type:'admin',
+            passFlag:false
+          }
+        },
+      ])
+        console.log("LoginSystem")
+        this.$router.push({path:'/admin'})
+
+      }
     }
 </script>
 
 <style scoped>
+
+  .el-input{
+    width: 25%;
+    vertical-align:bottom;
+  }
+
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <!--<div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -80,16 +80,28 @@
         </a>
       </li>
     </ul>
+  </div>-->
+  <div>
+
+
   </div>
 </template>
 
 <script>
+  import store from './../store'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted(){
+
+    console.log("这是vuex的状态管理默认值"+store.state.number)
+    this.$store.commit('numadd')
+
+    console.log("调用后的值"+store.state.number)
   }
 }
 </script>
