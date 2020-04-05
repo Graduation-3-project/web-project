@@ -45,7 +45,7 @@
 
 
 
-          <el-menu-item index="2">
+          <el-menu-item index="2" v-on:click="goo">
             <i class="el-icon-menu"></i>
             <span slot="title">新闻管理</span>
           </el-menu-item>
@@ -80,6 +80,10 @@
     export default {
         name: "admin.vue",
       methods: {
+
+          goo(){
+            this.$router.push({path:'newsManager'})
+          },
         handleOpen(key, keyPath) {
           console.log(key, keyPath);
         },

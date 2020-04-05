@@ -16,12 +16,12 @@
       </div>
     </el-form-item>
   </el-form>
- <router-view/>
 </div>
 </template>
-
+<router-view/>
 <script>
   import routes from './../../router'
+  import my_routes from './../../router/my_router'
   import admin from './admin'
     export default {
         name: "LoginSystem.vue",
@@ -40,8 +40,9 @@
       mounted()
       {
 
+console.log("输出我的路由"+my_routes.routes)
         //动态添加路由
-        this.$router.addRoutes([
+      /*  this.$router.addRoutes([
         {
           path: '/admin',
           name: 'admin',
@@ -51,9 +52,10 @@
             passFlag:false
           }
         },
-      ])
+      ])*/
+     this.$router.addRoutes(my_routes.routes)
         console.log("LoginSystem")
-        this.$router.push({path:'/admin'})
+        this.$router.push({path:'/amdin'})
 
       }
     }

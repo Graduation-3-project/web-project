@@ -7,6 +7,8 @@ import Home from '@/components/Home/Home.vue'
 import Login from '@/components/RegisterLogin/Login.vue'
 import News from './../components/NewsMessage/News'
 import LoginSystem from './../components/System/LoginSystem'
+import HomePage from './../components/ConmunicationSpace/HomePage'
+import admin from './../components/System/admin'
 Vue.use(Router)
 
 export default new Router({
@@ -45,7 +47,7 @@ export default new Router({
       path: '/LoginSystem',
       name: 'LoginSystem',
       component: LoginSystem,
-     /* children:[
+      /*children:[
         {
           path: 'admin',
           name: 'admin',
@@ -53,10 +55,11 @@ export default new Router({
         }
       ]*/
     },
+    {
+      path: '/HomePage',
+      name: 'HomePage',
+      component: HomePage
+    },
 
   ]
 })
-
-
-
-

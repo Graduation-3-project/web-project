@@ -18,27 +18,55 @@
       </el-menu-item>
       <el-menu-item  index="1" style="margin-left: 3%" v-on:click="GoNextPage('')">首页</el-menu-item>
       <el-menu-item  index="2" style="margin-left: 2%" v-on:click="GoNextPage('News')">最新资讯</el-menu-item>
-      <el-menu-item  index="3" style="margin-left: 2%" v-on:click="GoNextPage('')">交流园地</el-menu-item>
+      <el-menu-item  index="3" style="margin-left: 2%" v-on:click="GoNextPage('HomePage')">交流园地</el-menu-item>
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
       <el-menu-item  index="5" style="margin-left: 2%" v-on:click="GoNextPage('')">作品展示</el-menu-item>
       <el-menu-item  index="6" style="margin-left: 2%" v-on:click="GoNextPage('')">科技板块</el-menu-item>
-      <el-menu-item  index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
-      <el-menu-item  index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
+      <el-menu-item  v-show="0" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
+      <el-menu-item  v-show="0" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
+      <el-menu-item  index="9" style="margin-left: 27%;" v-on:click="GoNextPage('')">
+        <img  style="width: 30px;height: 30px;margin-right:1%"  @click="centerDialogVisible = true" src="./../../assets/login.png"/>
+        <el-dialog
+          style="margin-left: 80%;"
+          title="已登录"
+          :visible.sync="centerDialogVisible"
+          width="90%"
+          center>
+          <p>个人中心</p>
+           <p>退出</p>
+        </el-dialog>
+      </el-menu-item>
+
     </el-menu>
 
 
+
+
+
+
+
+    <div v-show="0" style="width:300px;height:200px;background: blueviolet;margin-left: 70%">
+      personal_center
+    </div>
+
+
+
+
+
+
     <el-container>
-      <el-aside width="20%">Aside</el-aside>
+      <el-aside width="20%">
+        Aside</el-aside>
       <el-container>
         <el-header>Header</el-header>
         <el-main>Main</el-main>
       </el-container>
     </el-container>
 
-
-
     <el-container>
-      <el-aside width="20%">Aside</el-aside>
+      <el-aside width="20%">
+       aside
+      </el-aside>
       <el-container>
         <el-header>Header</el-header>
         <el-main>Main</el-main>
@@ -58,7 +86,9 @@
         data() {
         return {
           activeIndex: '1',
-          display:''
+          display:'',
+          allMessageData:'',
+          centerDialogVisible:false
         }
       },
         methods: {
@@ -72,7 +102,7 @@
             }
             let paths='/'+path
             this.$router.push({path:paths});
-          }
+          },
         }
     }
 </script>
@@ -126,7 +156,11 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
-
-
+  .personal_center{
+    /*background: url("./../../assets/login.png");
+    width: 50px;
+    height: 50px;*/
+    width:300px;height:200px;background: blueviolet;margin-left: 70%
+  }
 
 </style>
