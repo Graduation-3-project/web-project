@@ -8,7 +8,7 @@ import Login from '@/components/RegisterLogin/Login.vue'
 import News from './../components/NewsMessage/News'
 import LoginSystem from './../components/System/LoginSystem'
 import HomePage from './../components/ConmunicationSpace/HomePage'
-import admin from './../components/System/admin'
+//import admin from './../components/System/admin'
 Vue.use(Router)
 
 export default new Router({

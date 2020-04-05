@@ -55,7 +55,7 @@ console.log("输出我的路由"+my_routes.routes)
       ])*/
      this.$router.addRoutes(my_routes.routes)
         console.log("LoginSystem")
-        this.$router.push({path:'/amdin'})
+        this.$router.push({path:'/admin'})
 
       }
     }

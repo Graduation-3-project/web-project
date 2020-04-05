@@ -12,40 +12,23 @@
           active-text-color="#ffd04b">
 
 
-
           <el-submenu index="1">
 
-
-            <template slot="title">
+            <template slot="title" >
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
 
-
-
-            <el-menu-item-group>
-              <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item-group >
+              <el-menu-item index="1-1" v-on:click="goNextPage('userManager')">用户CRUD</el-menu-item>
               <el-menu-item index="1-2">选项2</el-menu-item>
             </el-menu-item-group>
-
-
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-
-
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
           </el-submenu>
 
 
 
 
-
-
-          <el-menu-item index="2" v-on:click="goo">
+          <el-menu-item index="2" v-on:click="goNextPage('newsManager')">
             <i class="el-icon-menu"></i>
             <span slot="title">新闻管理</span>
           </el-menu-item>
@@ -53,18 +36,18 @@
 
 
 
-          <el-menu-item index="3">
+          <el-menu-item index="3" v-on:click="goNextPage('noticeManager')">
             <i class="el-icon-setting"></i>
             <span slot="title">通告管理</span>
           </el-menu-item>
 
-          <el-menu-item index="4">
+          <el-menu-item index="4" v-on:click="goNextPage('statisticManager')">
             <i class="el-icon-setting"></i>
             <span slot="title"> 统计分析</span>
           </el-menu-item>
 
 
-          <el-menu-item index="5">
+          <el-menu-item index="5" v-on:click="goNextPage('cityManager')">
             <i class="el-icon-setting"></i>
             <span slot="title">城市管理</span>
           </el-menu-item>
@@ -73,6 +56,8 @@
 
         </el-menu>
       </el-col>
+
+      <router-view></router-view>
     </div>
 </template>
 
@@ -81,8 +66,8 @@
         name: "admin.vue",
       methods: {
 
-          goo(){
-            this.$router.push({path:'newsManager'})
+          goNextPage(paths){
+            this.$router.push({path:'/admin/'+paths})
           },
         handleOpen(key, keyPath) {
           console.log(key, keyPath);

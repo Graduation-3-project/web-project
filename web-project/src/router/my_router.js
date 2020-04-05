@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import admin from './../components/System/admin'
+
+import admin from './../components/System/admin.vue'
 import cityManager from './../components/System/manager/cityManager'
 import newsManager from './../components/System/manager/newsManager'
 import noticeManager from './../components/System/manager/noticeManager'
