@@ -22,9 +22,9 @@
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
       <el-menu-item  index="5" style="margin-left: 2%" v-on:click="GoNextPage('')">作品展示</el-menu-item>
       <el-menu-item  index="6" style="margin-left: 2%" v-on:click="GoNextPage('')">科技板块</el-menu-item>
-      <el-menu-item  v-show="0" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
-      <el-menu-item  v-show="0" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
-      <el-menu-item  index="9" style="margin-left: 27%;" v-on:click="GoNextPage('')">
+      <el-menu-item  v-show="loginFlag" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
+      <el-menu-item  v-show="loginFlag" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
+      <el-menu-item  v-show="!loginFlag" index="9" style="margin-left: 27%;" v-on:click="GoNextPage('')">
         <img  style="width: 30px;height: 30px;margin-right:1%"  @click="centerDialogVisible = true" src="./../../assets/login.png"/>
         <el-dialog
           style="margin-left: 80%;"
@@ -40,16 +40,9 @@
     </el-menu>
 
 
-
-
-
-
-
-    <div v-show="0" style="width:300px;height:200px;background: blueviolet;margin-left: 70%">
+   <!-- <div v-show="0" style="width:300px;height:200px;background: blueviolet;margin-left: 70%">
       personal_center
-    </div>
-
-
+    </div>-->
 
 
 
@@ -62,6 +55,7 @@
         <el-main>Main</el-main>
       </el-container>
     </el-container>
+
 
     <el-container>
       <el-aside width="20%">
@@ -88,7 +82,8 @@
           activeIndex: '1',
           display:'',
           allMessageData:'',
-          centerDialogVisible:false
+          centerDialogVisible:false,
+          loginFlag:true
         }
       },
         methods: {
@@ -103,7 +98,17 @@
             let paths='/'+path
             this.$router.push({path:paths});
           },
+
+
+        },
+      mounted(){
+          //
+        console.log("Home"+this.$route.params.loginFlag);
+        if(this.$route.params.loginFlag==false){
+          this.loginFlag=this.$route.params.loginFlag
         }
+
+      }
     }
 </script>
 
