@@ -22,7 +22,7 @@
       <!--  <el-form-item>
           <el-input placeholder="请输入密码" v-model="user.password"></el-input>
         </el-form-item>-->
-        <h3 v-if="db_Msg.db_identify_Code!=''">验证码{{db_Msg.db_identify_Code}}</h3>
+        <h3 v-if="db_Msg.db_identify_Code!=''">{{db_Msg.db_identify_Code}}</h3>
       </el-form>
     </el-main>
 </template>
@@ -64,17 +64,25 @@
                 'Content-Type': 'application/json;charset=UTF-8'
               }, /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
             }).then(function (res) {
-              console.log("验证码"+res.data.user_register_code);
-              that.db_Msg.db_identify_Code=res.data.user_register_code;
-               console.log("返回的ID"+res.data.id)
-              that.db_Msg.db_User=res.data;
+              if(res.data===''){
+                that.db_Msg.db_identify_Code="您已经注册了"
+                console.log("输出返回值"+res.data)
+              }else {
+                console.log("验证码"+res.data.userRegisterCode);
+                that.db_Msg.db_identify_Code=res.data.userRegisterCode;
+                that.db_Msg.db_identify_Code="验证码"+ that.db_Msg.db_identify_Code;
+                console.log("返回的ID"+res.data.id)
+                that.db_Msg.db_User=res.data;
+                console.log("输出返回值"+res.data)
+              }
+
                console.log("用户"+ that.db_Msg.db_User);
             });
           }
          //从后台发送验证码
         },
         judge_Code(){
-                 if(this.db_Msg.db_identify_Code==this.register_Msg.identify_Code)
+                 if(this.db_Msg.db_identify_Code==("验证码"+this.register_Msg.identify_Code))
                  {
                    this.register_Msg.password_PageFlag=true
                  }
@@ -96,18 +104,17 @@
               },
               /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
             }).then(function (res) {
-              //console.log("验证码"+res.data);
-              //that.db_Msg.db_identify_Code=res.data;
-              db_register_Flag=res.data
-                console.log("设置密码"+db_register_Flag)
-              if(res.data==1){
-                console.log("注册成功标志"+db_register_Flag)
 
+              db_register_Flag=res.data
+              console.log("设置密码"+db_register_Flag)
+
+              if(res.data==1){
+
+                console.log("注册成功标志"+db_register_Flag)
                 that.$router.push({ name: 'Home',params:{loginFlag:false}});
 
-             //   that.$router.push({path:"/"});
               }else {
-                console.log("注册失败标志"+db_register_Flag)
+               // console.log("注册失败标志"+db_register_Flag)
                 that.$alert("注册失败");
               }
 
@@ -121,7 +128,6 @@
       },
       mounted(){
           console.log("register")
-
       }
     }
 </script>

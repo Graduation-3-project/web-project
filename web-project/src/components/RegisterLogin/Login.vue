@@ -105,7 +105,6 @@
               Hint:'请输入验证码',
               flag:false
             },
-
           ],
           i:0
         },
@@ -130,8 +129,8 @@
 
           ],
           db_User:{
-            account_Num:'007',
-            password_Num:'007'
+            account_Num:'',
+            password_Num:''
           },
           i:0,
           j:2
@@ -296,6 +295,11 @@
         }
       },
       final_Test(){
+
+        console.log("账号密码验证"+this.user.account_Number);
+        console.log("账号密码验证"+this.user.password);
+        console.log("数据库密码验证"+this.user_Msg.db_User.account_Num);
+        console.log("数据库密码验证"+this.user_Msg.db_User.password_Num);
         if (this.user_Msg.db_User.account_Num!=this.user.account_Number)
         {
           this.user_Msg.i=1
@@ -316,27 +320,79 @@
           return 1;
         }
       },
-      login(){
-        if(this.user_Account_Test()&&this.identify_Code_Test())
+      login() {
+
+        let db_register_Flag = "";
+        let that = this;
+
+        console.log("账号密码测试"+that.user.password)
+        console.log("账号密码测试"+that.user.account_Number)
+
+        let url = "http://127.0.0.1:8080/login/judeg.json";
         {
-          if(this.final_Test())
-          {
-            if(this.cooki_Msg.local_Msg.login_Flat==true)
-            {
-              this.cooki_set();
-            }else {
-              if(this.$cookies.isKey('user'))
-              {
-                this.$cookies.remove('user')
+          this.axios({
+            method: 'get',
+            url: url,
+            params: {
+              password: that.user.password,
+              account: that.user.account_Number
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            console.log("输出返回信息"+res.data.userPassword)
+
+
+
+               if(res.data!='')
+               {
+                 console.log("这是返回信息")
+                 that.user_Msg.db_User.password_Num=res.data.userPassword;
+                 that.user_Msg.db_User.account_Num=res.data.userTel;
+               }
+                     // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+          });
+
+
+          setTimeout(() =>{
+            if (this.user_Account_Test() && this.identify_Code_Test()) {
+              if (this.final_Test()) {
+                if (this.cooki_Msg.local_Msg.login_Flat === true) {
+                  this.cooki_set();
+                } else {
+                  if (this.$cookies.isKey('user')) {
+                    this.$cookies.remove('user')
+                  }
+                }
+
+                that.$router.push({ name: 'Home',params:{loginFlag:false}});
+                //在这里跳转
               }
             }
+            this.identify_Code = ''
+          },2000);
 
-            this.$router.push({path:'/HelloWorld'})
-            //在这里跳转
+          /*if (this.user_Account_Test() && this.identify_Code_Test()) {
+            if (this.final_Test()) {
+              if (this.cooki_Msg.local_Msg.login_Flat === true) {
+                this.cooki_set();
+              } else {
+                if (this.$cookies.isKey('user')) {
+                  this.$cookies.remove('user')
+                }
+              }
+
+              that.$router.push({ name: 'Home',params:{loginFlag:false}});
+              //在这里跳转
+            }
           }
+          this.identify_Code = ''*/
         }
-        this.identify_Code=''
+
       },
+
       cooki_set(){
 
         //this.$cookies.set(keyName, time)   //设置cooki
@@ -349,34 +405,35 @@
           //toLocaleString() 方法可根据本地时间把 Date 对象转换为字符串，并返回结果。
           time = new Date().toLocaleString();
         },1000)
-        this.cooki_Msg.local_Msg.user_Account= this.user.account_Number
-        this.cooki_Msg.local_Msg.user_Password= this.user.password
-        let user = {flag:this.cooki_Msg.local_Msg.login_Flat,time:time,account:this.cooki_Msg.local_Msg.user_Account, password:this.cooki_Msg.local_Msg.user_Password};
-        this.$cookies.set('user',user);
-         // print user name
-        console.log("usercooki=="+this.$cookies.get('user').flag)
+          this.cooki_Msg.local_Msg.login_Flat
+          this.cooki_Msg.local_Msg.user_Account= this.user.account_Number
+          this.cooki_Msg.local_Msg.user_Password= this.user.password
+          let user = {flag:this.cooki_Msg.local_Msg.login_Flat,time:time,account:this.cooki_Msg.local_Msg.user_Account, password:this.cooki_Msg.local_Msg.user_Password};
+          this.$cookies.set('user',user);
+          // print user name
+          console.log("usercooki=="+this.$cookies.get('user').flag)
 
       },
       judge_LoginFlag(){
         if(this.$cookies.isKey('user'))
         {
-        if(this.$cookies.get('user').flag==true)
-        {
-            this.user.account_Number=this.$cookies.get('user').account
-            this.cooki_Msg.local_Msg.user_Account= this.user.account_Number
-            console.log("登录前输出cooki账号"+this.$cookies.get('user').account)
-            this.user.password=this.$cookies.get('user').password
-            this.cooki_Msg.local_Msg.user_Password= this.user.password
-           console.log("登录前输出cooki密码"+this.user.password)
-          this.cooki_Msg.local_Msg.login_Flat=this.$cookies.get('user').flag
-        }
+            if(this.$cookies.get('user').flag==true)
+            {
+                this.user.account_Number=this.$cookies.get('user').account
+                this.cooki_Msg.local_Msg.user_Account= this.user.account_Number
+                console.log("登录前输出cooki账号"+this.$cookies.get('user').account)
+                this.user.password=this.$cookies.get('user').password
+                this.cooki_Msg.local_Msg.user_Password= this.user.password
+                console.log("登录前输出cooki密码"+this.user.password)
+                this.cooki_Msg.local_Msg.login_Flat=this.$cookies.get('user').flag
+             }
+
         else {
           this.user.account_Number=''
           this.user.password=''
           this.cooki_Msg.local_Msg.user_Account=''
           this.cooki_Msg.local_Msg.user_Password=''
           this.cooki_Msg.local_Msg.login_Flat=''
-
         }
         }
 
@@ -385,23 +442,16 @@
         this.$router.push({path:'/Register'})
       }
 
-
-
-
-
-
-
-
-
-
     },
     mounted(){
-      //  this.cooki_set()
-      /*if('Ab'.toUpperCase()==='AB'.toUpperCase())
+       /* this.cooki_set()
+      if('Ab'.toUpperCase()==='AB'.toUpperCase())
       {
+         转换成大写
         console.log("A==A")
         console.log("'123Ab'.toUpperCase()="+'123ab'.toUpperCase())
       }*/
+
       this.judge_LoginFlag();
       this.drawPic();
       this.randNumber=''

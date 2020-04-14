@@ -1,19 +1,48 @@
 <template>
   <el-container>
-    <el-header>Header</el-header>
+    <el-header>
+      <!--3个值 scroll-循环滚动 slide-只滚动一次 alternate-来回滚动  默认循环滚动-->
+      <marquee  loop="2">
+        <p style="font-size: 25px;margin-top: 10px">
+        我只滚动一次
+        </p>
+      </marquee>
+      <!--https://www.jianshu.com/p/6dcec8a9ea60-->
+    </el-header>
     <el-container>
-      <el-aside width="200px">Aside</el-aside>
+      <el-aside width="200px" style="background: white"></el-aside>
       <el-container>
 
-        <el-main>Main</el-main>
-        <el-footer>Footer</el-footer>
+        <el-main style="padding-bottom: 0">
+          <!--background: red-->
+          <div style="float: right;width: 50%">
+            <video style="height: auto;width: 100%" autoplay controls>
+              <source src="./../../assets/YouTube.mp4"  type="video/mp4">
+            </video>
+          </div><!--background: blue-->
+
+
+          <div style="float: right;;width: 50%">
+            <div class="block">
+              <el-carousel style="width: 100%;height: auto">
+                <el-carousel-item v-for="item in 4" :key="item">
+                  <h3>{{ item }}sdkslkd</h3>
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          </div>
+
+
+        </el-main>
+        <el-footer style="display: inline">
+          <h2 style="text-align:left ;color: black;margin-top: 10px;">要点新闻</h2>
+          <h2 style="float: right;color: black;margin-right: 6%">热文推荐</h2>
+        </el-footer>
       </el-container>
     </el-container>
 
 
-
-
-    <divs style="width:500px;height:180px; border-bottom:2px solid silver;" >
+    <divs style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%" >
       <div style="float: left;cursor: pointer">
         <img  style="width: 200px;height: 120px;margin-top: 30px;" src="./../../assets/timg.png"/>
       </div>
@@ -24,7 +53,11 @@
 
 
 
-
+    <div class="border_frame" style="width: 421px;height:max-content;clear: both;margin-left: 60%">
+      <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="item in 10">
+        <span>dandsal;dksal;dsas</span>
+      </li>
+    </div>
 
   </el-container>
 </template>
@@ -37,21 +70,18 @@
 
 <style scoped>
   .el-header, .el-footer {
-    background-color: #B3C0D1;
     color: #333;
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    background-color: #D3DCE6;
     color: #333;
     text-align: center;
     line-height: 200px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
     color: #333;
     text-align: center;
     line-height: 160px;
@@ -72,12 +102,6 @@
 
 
 
-
-
-
-
-
-
   img {
     transition:transform 0.5s;
   }
@@ -86,5 +110,15 @@
   }
   divs:hover{
     background: silver;
+  }
+  span:hover{
+    color:#f62016
+  }
+  .border_frame{
+    border-radius: 4px;
+    border-left:2px solid #000;
+    border-right:2px solid #000;
+    border-top :2px solid #000;
+    border-bottom:2px solid #000;
   }
 </style>
