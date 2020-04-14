@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-header style="background-color: #545c64;"><h3 style="color: gainsboro;">同城子女后台管理</h3></el-header>
-      <el-col style="width: 18%;background:#545c64;height:600px ">
+      <el-col style="width: 18%;background:#545c64;height:max-content ">
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"
@@ -11,9 +11,7 @@
           text-color="#fff"
           active-text-color="#ffd04b">
 
-
           <el-submenu index="1">
-
             <template slot="title" >
               <i class="el-icon-location"></i>
               <span>用户管理</span>
@@ -27,11 +25,23 @@
 
 
 
+          <el-submenu index="2">
+            <template slot="title" >
+              <i class="el-icon-location"></i>
+              <span>新闻管理</span>
+            </template>
 
-          <el-menu-item index="2" v-on:click="goNextPage('newsManager')">
+            <el-menu-item-group >
+              <el-menu-item index="1-1" v-on:click="goNextPage('newsManager')">文本管理</el-menu-item>
+              <el-menu-item index="1-2" v-on:click="goNextPage('newsEdit')">文本编辑</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+       <!--   <el-menu-item index="2" >
             <i class="el-icon-menu"></i>
             <span slot="title">新闻管理</span>
-          </el-menu-item>
+
+          </el-menu-item>-->
 
 
 

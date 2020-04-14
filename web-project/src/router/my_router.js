@@ -8,6 +8,7 @@ import newsManager from './../components/System/manager/newsManager'
 import noticeManager from './../components/System/manager/noticeManager'
 import statisticManager from './../components/System/manager/statisticManager'
 import userManager from './../components/System/manager/userManager'
+import newsEdit from './../components/System/manager/newsEdit'
 Vue.use(Router)
 
 export default {
@@ -41,6 +42,11 @@ export default {
             path: 'cityManager',
             name: 'cityManager',
             component: cityManager,
+        },
+        {
+          path: 'newsEdit',
+          name: 'newsEdit',
+          component: newsEdit,
         },
 
 

@@ -32,8 +32,9 @@
             </div>
           </div>
 
-
         </el-main>
+        <div style="width: inherit;" class="border_frame">
+        </div>
         <el-footer style="display: inline">
           <h2 style="text-align:left ;color: black;margin-top: 10px;">要点新闻</h2>
           <h2 style="float: right;color: black;margin-right: 6%">热文推荐</h2>
@@ -55,7 +56,7 @@
 
     <div class="border_frame" style="width: 421px;height:max-content;clear: both;margin-left: 60%">
       <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="item in 10">
-        <span>dandsal;dksal;dsas</span>
+        <span>dandsalkkdksaldsas</span>
       </li>
     </div>
 

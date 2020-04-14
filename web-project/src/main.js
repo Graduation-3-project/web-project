@@ -18,6 +18,11 @@ Vue.use(ElementUI);
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 
+//富文本编译器
+import Vue2Editor from "vue2-editor";
+Vue.use(Vue2Editor);
+
+
 import Vuex from 'vuex'
 import store from './store'
 Vue.use(Vuex)
