@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-header style="background-color: #545c64;"><h3 style="color: gainsboro;">同城子女后台管理</h3></el-header>
-      <el-col style="width: 18%;background:#545c64;height:max-content ">
+      <el-col style="width: 18%;background:#545c64;height:800px ">
         <el-menu
           default-active="2"
           class="el-menu-vertical-demo"

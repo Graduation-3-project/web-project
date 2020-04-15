@@ -45,8 +45,6 @@
        </template>
      </el-table-column>
    </el-table>-->
-
-
     <div style="margin-top: 1%;width: 80%;margin-left: 18%;">
       <div style=" border-top :6px solid #000;;width: 100%;height: 1%;background: silver">
 
@@ -102,12 +100,10 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <div>
-
+      <div v-html="content.newsContent">
+      {{content.newsContent}}
       </div>
     </div>
-
 </template>
 
 <script>
@@ -115,14 +111,16 @@
         name: "newsManager",
       data(){
           return{
-            tableData: [{
+            tableData: [
+              {
               date: '2016-05-03',
               name: '王小虎',
               province: '上海',
               city: '普陀区',
               address: '上海市普陀区金沙江路 1518 弄',
               zip: 200333
-            }, {
+            }
+            , {
               date: '2016-05-02',
               name: '王小虎',
               province: '上海',
@@ -171,7 +169,8 @@
               city: '普陀区',
               address: '上海市普陀区金沙江路 1518 弄',
               zip: 200333
-            },]
+            },],
+            content:''
           }
       },
       methods:{
@@ -181,9 +180,29 @@
         deleteRow(index, rows) {
           rows.splice(index, 1);
         },
+        getNewsMessage() {
+            let that = this;
+            let url = "http://127.0.0.1:8080/newsmessage/findAll.json";
+            {
+              this.axios({
+                method: 'get',
+                url: url,
+                params: {
+                },
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                },
+                /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+              }).then(function (res) {
+                // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+                     that.content=res.data[2];
+              });
+            }
+          }
       },
       mounted(){
-          console.log("newsManager")
+          console.log("newsManager");
+        this.getNewsMessage();
       },
     }
 </script>
