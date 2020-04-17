@@ -47,41 +47,40 @@
    </el-table>-->
     <div style="margin-top: 1%;width: 80%;margin-left: 18%;">
       <div style=" border-top :6px solid #000;;width: 100%;height: 1%;background: silver">
-
       </div>
       <el-table
-        :data="tableData"
+        :data="news_message"
         border
         style="width: 100%">
         <el-table-column
           fixed
-          prop="date"
+          prop="dateCreated"
           label="日期"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="姓名"
+          prop="newsTitle"
+          label="标题"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="province"
-          label="省份"
+          prop="newsAuthor"
+          label="作者"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="市区"
+          prop="topFlag"
+          label="置顶"
           width="120">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址"
+          prop="clickNumber"
+          label="点击量"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="zip"
-          label="邮编"
+          prop="newsType"
+          label="类型"
           width="120">
         </el-table-column>
         <el-table-column
@@ -92,7 +91,7 @@
             <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
             <el-button type="text" size="small">编辑</el-button>
             <el-button
-              @click.native.prevent="deleteRow(scope.index, tableData)"
+              @click.native.prevent="deleteRow(scope.index, news_message)"
               type="text"
               size="small">
               移除
@@ -100,6 +99,9 @@
           </template>
         </el-table-column>
       </el-table>
+      <img :src="content.picsUrl"/>显示封面用的
+      {{content.newsTitle}}
+      {{content.newsAuthor}}
       <div v-html="content.newsContent">
       {{content.newsContent}}
       </div>
@@ -142,7 +144,7 @@
               address: '上海市普陀区金沙江路 1518 弄',
               zip: 200333
             },{
-              date: '2016-05-01',
+              date: '2016-05-01`',
               name: '王小虎',
               province: '上海',
               city: '普陀区',
@@ -170,6 +172,16 @@
               address: '上海市普陀区金沙江路 1518 弄',
               zip: 200333
             },],
+            news_message:[{
+              newsTitle:'aaa',
+              newsAuthor:'aaa',
+              newsType:'aaa',
+              newsContent:'aaa',
+              picsUrl:'',
+              videosUrl:'',
+              topFlag:'',
+              clickNumber:'',
+            },],
             content:''
           }
       },
@@ -195,14 +207,20 @@
                 /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
               }).then(function (res) {
                 // that.$router.push({ name: 'Home',params:{loginFlag:false}});
-                     that.content=res.data[2];
+                that.content=res.data[7];
+                for(let i=0;i<res.data.length;i++)
+                {
+                  that.news_message.push(res.data[i])
+                }
+
+                console.log("输出信息"+that.content.picsUrl)
               });
             }
           }
       },
       mounted(){
           console.log("newsManager");
-        this.getNewsMessage();
+          this.getNewsMessage();
       },
     }
 </script>

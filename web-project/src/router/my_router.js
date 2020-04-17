@@ -9,6 +9,7 @@ import noticeManager from './../components/System/manager/noticeManager'
 import statisticManager from './../components/System/manager/statisticManager'
 import userManager from './../components/System/manager/userManager'
 import newsEdit from './../components/System/manager/newsEdit'
+import newsFirstPageManager from './../components/System/manager/newsFirstPageManager'
 Vue.use(Router)
 
 export default {
@@ -47,6 +48,11 @@ export default {
           path: 'newsEdit',
           name: 'newsEdit',
           component: newsEdit,
+        },
+        {
+          path: 'newsFirstPageManager',
+          name: 'newsFirstPageManager',
+          component: newsFirstPageManager,
         },
 
 
