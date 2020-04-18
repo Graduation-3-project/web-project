@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 80%;margin-left: 19%;margin-top: 1%;">
+    <div style="position: absolute;width: 80%;margin-left: 19%;margin-top: 5%;">
       <div>
         <h3>编辑正文</h3>
         <!--useCustomImageHandler-->

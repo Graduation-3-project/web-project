@@ -45,7 +45,7 @@
        </template>
      </el-table-column>
    </el-table>-->
-    <div style="margin-top: 1%;width: 80%;margin-left: 18%;">
+    <div style="position: absolute;margin-top: 5%;width: 80%;margin-left: 18%;">
       <div style=" border-top :6px solid #000;;width: 100%;height: 1%;background: silver">
       </div>
       <el-table

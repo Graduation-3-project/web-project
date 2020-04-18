@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <el-container>
       <el-header style="background-color: #545c64;"><h3 style="color: gainsboro;">同城子女后台管理</h3></el-header>
       <el-col style="width: 18%;background:#545c64;height:800px ">
         <el-menu
@@ -45,9 +45,6 @@
 
           </el-menu-item>-->
 
-
-
-
           <el-menu-item index="3" v-on:click="goNextPage('noticeManager')">
             <i class="el-icon-setting"></i>
             <span slot="title">通告管理</span>
@@ -65,9 +62,8 @@
           </el-menu-item>
         </el-menu>
       </el-col>
-
       <router-view></router-view>
-    </div>
+  </el-container>
 </template>
 
 <script>

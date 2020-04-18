@@ -17,7 +17,9 @@
           <!--background: red-->
           <div style="float: right;width: 50%">
             <video style="height: auto;width: 100%" autoplay controls>
-              <source src="./../../assets/YouTube.mp4"  type="video/mp4">
+
+              <!--<source src="./../../assets/YouTube.mp4"  type="video/mp4">-->
+              <source src="http://127.0.0.1:8080/videos/video"  type="video/mp4">
             </video>
           </div><!--background: blue-->
 
@@ -41,14 +43,12 @@
         </el-footer>
       </el-container>
     </el-container>
-
-
-    <divs style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%" >
-      <div style="float: left;cursor: pointer">
+    <divs style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%;cursor: pointer" >
+      <div style="float: left;">
         <img  style="width: 200px;height: 120px;margin-top: 30px;" src="./../../assets/timg.png"/>
       </div>
       <div style="float:left;width: 300px;height:100px;margin-top: 30px">
-          <h3 style="clear: both;cursor: pointer">当今皇上反抗军的房间哦加里的顺利地考上了哦发的</h3>
+          <h3 style="clear: both;">当今皇上反抗军的房间哦加里的顺利地考上了哦发的</h3>
       </div>
     </divs>
 
