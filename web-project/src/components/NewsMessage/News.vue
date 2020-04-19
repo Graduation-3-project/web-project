@@ -19,14 +19,14 @@
           <!--background: red-->
           <div style="float: right;width: 50%">
             <video style="height: auto;width: 100%" autoplay controls>
-              <!--<source src="./../../assets/YouTube.mp4"  type="video/mp4">-->
+             <!-- <source src="./../../assets/YouTube.mp4"  type="video/mp4">-->
               <source src="http://127.0.0.1:8080/videos/video"  type="video/mp4">
             </video>
           </div><!--background: blue-->
 
           <div style="float: right;;width: 50%;">
             <el-carousel style="width: 100%;height:311px">
-                <el-carousel-item style="height: 310px" v-for="item in Msg.news_message" v-if="item.topFlag==='true'"  :key="item" >
+                <el-carousel-item style="height: 310px" v-for="item in Msg.news_message" v-if="item.topFlag==='true'"  :key="item.index" >
                   <img style="width: inherit;height: inherit" :src="item.picsUrl"/>
                 </el-carousel-item>
               </el-carousel>
@@ -40,8 +40,8 @@
         </el-footer>
       </el-container>
     </el-container>
-    <div id="div1" v-for="(item,index) in Msg.news_message" >
-    <div v-on:click="goNextPage(index,item)" style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%;cursor: pointer" >
+    <div id="div1" v-for="item in Msg.news_message" :key="item.index">
+    <div v-on:click="goNextPage(item)" style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%;cursor: pointer" >
       <div style="float: left;">
         <img  style="width: 200px;height: 120px;margin-top: 30px;" :src="item.picsUrl"/>
       </div>
@@ -51,7 +51,7 @@
     </div>
     </div>
     <div class="border_frame" style="position:absolute;top:75%;width: 421px;height:max-content;clear: both;margin-left: 66%">
-      <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="item in Msg.news_message" v-show="item.topFlag=='true'">
+      <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="item in Msg.news_message" :key="item.index" v-show="item.topFlag=='true'">
         <span>{{item.newsTitle}}</span>
       </li>
     </div>
@@ -67,13 +67,12 @@
         return{
           Msg:{
             news_message:'',
-            news:''
+           // news:''
           }
         }
       },
       methods:{
-          goNextPage(index,item){
-           console.log("输出index"+index)
+          goNextPage(item){
             this.$router.push({ name: 'NewsNextPage',params:{items:item}});
           },
         getNewsMessage() {
@@ -95,10 +94,55 @@
                         that.Msg.news_message=res.data
             });
           }
+        },
+
+
+        getNewsVideo(){
+          console.log("输出地址1")
+          let that = this;
+          let newsVideos;
+          let urls = "http://127.0.0.1:8080/newsVideo/findAll.json";
+          this.axios({
+            method: 'get',
+            url: urls,
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+
+            console.log(res.data[1].topFlag);
+            for (let i=0;i<res.data.length;i++)
+            {
+              if(res.data[i].topFlag==="true"){
+                newsVideos=res.data[i];
+              }
+            }
+
+            let url = "http://127.0.0.1:8080/newsPage/makeVideoTopOperate.json";
+            that.axios({
+              method: 'get',
+              url: url,
+              params: {
+                path:newsVideos.videoUrl
+              },
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              },
+              /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+            }).then(function (res) {
+              // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+
+            });
+            // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+          });
         }
+
       },
+
       mounted(){
 this.getNewsMessage();
+this.getNewsVideo();
       }
     }
 </script>

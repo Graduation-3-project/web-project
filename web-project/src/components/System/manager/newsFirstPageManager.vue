@@ -44,7 +44,7 @@
            border-top :2px solid #000;
            border-bottom:2px solid #000;
            height: 200px"
-            action="http://127.0.0.1:8080/newsPage/videoUrl.json"
+            action="http://127.0.0.1:8080/newsVideo/Add.json"
             :on-success="Videosuccess"
             class="upload-demo" ref="video" type="file" name="file" id="files">
             <!--<i class="el-icon-plus avatar-uploader-icon"></i>-->
@@ -94,7 +94,6 @@
         },
         Videosuccess(response){
           this.$alert(response)
-
         },
         handleRemove(file, fileList) {
           console.log(file, fileList);
