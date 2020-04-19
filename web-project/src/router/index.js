@@ -6,6 +6,8 @@ import ToLogin from '@/components/RegisterLogin/ToLogin.vue'
 import Home from '@/components/Home/Home.vue'
 import Login from '@/components/RegisterLogin/Login.vue'
 import News from './../components/NewsMessage/News'
+import NewsNextPage from './../components/NewsMessage/NewsNextPage'
+
 import LoginSystem from './../components/System/LoginSystem'
 import HomePage from './../components/ConmunicationSpace/HomePage'
 //import admin from './../components/System/admin'
@@ -59,6 +61,11 @@ export default new Router({
       path: '/HomePage',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/NewsNextPage',
+      name: 'NewsNextPage',
+      component: NewsNextPage
     },
 
   ]

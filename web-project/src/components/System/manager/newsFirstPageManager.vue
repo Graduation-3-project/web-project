@@ -21,7 +21,7 @@
             <el-upload
               :limit=4
               :on-success="Picsuccess"
-              action="http://127.0.0.1:8080/newsPage/ads.json"
+              action="http://127.0.0.1:8080/newsPage/pics.json"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">

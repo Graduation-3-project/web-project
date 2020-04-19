@@ -88,10 +88,13 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
+            <!--handleClick(scope.row)-->
+            <el-button @click="checkNews(scope.row)" type="text" size="small">查看</el-button>
+            <el-button type="text" size="small" @click="makeTop(scope.row)">置顶</el-button>
+            <el-button type="text" size="small" @click="cancelMakeTop(scope.row)">恢复</el-button>
+
             <el-button
-              @click.native.prevent="deleteRow(scope.index, news_message)"
+              @click.native.prevent="deleteRow(scope.$index,news_message)"
               type="text"
               size="small">
               移除
@@ -99,12 +102,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <img :src="content.picsUrl"/>显示封面用的
-      {{content.newsTitle}}
-      {{content.newsAuthor}}
-      <div v-html="content.newsContent">
-      {{content.newsContent}}
-      </div>
     </div>
 </template>
 
@@ -186,11 +183,90 @@
           }
       },
       methods:{
-        handleClick(row) {
-          console.log(row);
+        makeTop(item){//置顶操作
+          if(item.topFlag==="false")
+          {
+            let that = this;
+            let url = "http://127.0.0.1:8080/newsmessage/top.json";
+            {
+              this.axios({
+                method: 'get',
+                url: url,
+                params: {
+                  id:item.id
+                },
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                },
+                /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+              }).then(function (res) {
+                // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+                        if(res.data){
+                          that.$alert("置顶成功")
+                        }
+              });
+            }
+          }
+          else{
+            this.$alert("已置顶")
+          }
+        },
+        checkNews(item){
+          console.log("输出index"+item.newsTitle)
+          this.$router.push({ name: 'NewsNextPage',params:{items:item}});
+        },
+        cancelMakeTop(item){//置顶操作
+          if(item.topFlag==="true")
+          {
+            let that = this;
+            let url = "http://127.0.0.1:8080/newsmessage/cancelTop.json";
+            {
+              this.axios({
+                method: 'get',
+                url: url,
+                params: {
+                  id:item.id
+                },
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                },
+                /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+              }).then(function (res) {
+                // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+                if(res.data){
+                  that.$alert("取消成功")
+                }
+              });
+            }
+          }
+          else{
+            this.$alert("未置顶")
+          }
         },
         deleteRow(index, rows) {
+
+         console.log("输出对象"+index)
+          {
+            let that = this;
+            let url = "http://127.0.0.1:8080/newsmessage/delete.json";
+            {
+              this.axios({
+                method: 'get',
+                url: url,
+                params: {
+                  id:that.news_message[index].id
+                },
+                headers: {
+                  'Content-Type': 'application/json;charset=UTF-8'
+                },
+                /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+              }).then(function (res) {
+                // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+              });
+            }
+          }
           rows.splice(index, 1);
+
         },
         getNewsMessage() {
             let that = this;
@@ -213,7 +289,7 @@
                   that.news_message.push(res.data[i])
                 }
 
-                console.log("输出信息"+that.content.picsUrl)
+                //console.log("输出信息"+that.content.picsUrl)
               });
             }
           }

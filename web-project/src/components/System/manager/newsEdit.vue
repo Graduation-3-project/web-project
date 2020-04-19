@@ -16,9 +16,8 @@
           <el-form-item>
             <label>上传封面:</label>
             <el-upload
-              :limit=1
               :on-success="savePic"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              action="http://127.0.0.1:8080/newsPage/ads.json"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
@@ -62,7 +61,7 @@
         handleImageAdded(file, Editor, cursorLocation,resetUploader){
           //上传图片操作
           //把获取到的图片url 插入到鼠标所在位置 回显图片
-          console.log("输出图片"+this.contents);
+         /* console.log("输出图片"+this.contents);
           var formData = new FormData();
           formData.append("image", file);
           this.axios({
@@ -78,7 +77,7 @@
               resetUploader();
             }).catch(err => {
               console.log(err);
-            });
+            });*/
           //let url='./../../../assets/login.png'
          // Editor.insertEmbed(cursorLocation, 'image',url);
         },
@@ -147,6 +146,7 @@
         },
         savePic(response, file, fileList){
 
+          console.log("输出图片编码函数")
           let that = this;
           var reader = new FileReader();
           reader.readAsDataURL(file.raw);
