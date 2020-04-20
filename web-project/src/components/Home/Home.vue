@@ -20,8 +20,6 @@
       <el-menu-item  index="2" style="margin-left: 2%" v-on:click="GoNextPage('News')">最新资讯</el-menu-item>
       <el-menu-item  index="3" style="margin-left: 2%" v-on:click="GoNextPage('HomePage')">交流园地</el-menu-item>
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
-      <el-menu-item  index="5" style="margin-left: 2%" v-on:click="GoNextPage('')">作品展示</el-menu-item>
-      <el-menu-item  index="6" style="margin-left: 2%" v-on:click="GoNextPage('')">科技板块</el-menu-item>
       <el-menu-item  v-show="loginFlag" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
       <el-menu-item  v-show="loginFlag" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
       <el-menu-item  v-show="!loginFlag" index="9" style="margin-left: 27%;" v-on:click="GoNextPage('')">

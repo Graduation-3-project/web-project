@@ -39,8 +39,7 @@
       },
       mounted()
       {
-
-console.log("输出我的路由"+my_routes.routes)
+       console.log("输出我的路由"+my_routes.routes)
         //动态添加路由
       /*  this.$router.addRoutes([
         {
@@ -53,7 +52,7 @@ console.log("输出我的路由"+my_routes.routes)
           }
         },
       ])*/
-     this.$router.addRoutes(my_routes.routes)
+        this.$router.addRoutes(my_routes.routes)
         console.log("LoginSystem")
         this.$router.push({path:'/admin'})
 

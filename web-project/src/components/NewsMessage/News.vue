@@ -158,8 +158,6 @@
         },
         sortData() {
           console.log("sssss");
-
-
           console.log( this.ShuffleData.length);
           for (let i = 0; i < this.ShuffleData.length; i++) {
             for (let j = 0; j < this.ShuffleData.length - i - 1; j++) {

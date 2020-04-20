@@ -7,9 +7,12 @@ import cityManager from './../components/System/manager/cityManager'
 import newsManager from './../components/System/manager/newsManager'
 import noticeManager from './../components/System/manager/noticeManager'
 import statisticManager from './../components/System/manager/statisticManager'
-import userManager from './../components/System/manager/userManager'
+import userManager from './../components/System/manager/userManager.vue'
 import newsEdit from './../components/System/manager/newsEdit'
 import newsFirstPageManager from './../components/System/manager/newsFirstPageManager'
+import noticeEdit from './../components/System/manager/noticeEdit'
+
+
 Vue.use(Router)
 
 export default {
@@ -54,6 +57,12 @@ export default {
           name: 'newsFirstPageManager',
           component: newsFirstPageManager,
         },
+        {
+          path: 'noticeEdit',
+          name: 'noticeEdit',
+          component: noticeEdit,
+        },
+
 
 
       ],
