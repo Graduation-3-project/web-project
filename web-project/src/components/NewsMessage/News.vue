@@ -14,8 +14,6 @@
       <el-container>
         <el-main style="padding-bottom: 0">
 
-
-
           <!--background: red-->
           <div style="float: right;width: 50%">
             <video style="height: auto;width: 100%" autoplay controls>
@@ -26,8 +24,8 @@
 
           <div style="float: right;;width: 50%;">
             <el-carousel style="width: 100%;height:311px">
-                <el-carousel-item style="height: 310px" v-for="item in Msg.news_message" v-if="item.topFlag==='true'"  :key="item.index" >
-                  <img style="width: inherit;height: inherit" :src="item.picsUrl"/>
+                <el-carousel-item style="height: 310px" v-for="item in Msg.news_message"  v-if="item.topFlag==='true'"  :key="item.index" >
+                  <img  v-on:click="goNextPage(item)" style="cursor: pointer;width: inherit;height: inherit" :src="item.picsUrl"/>
                 </el-carousel-item>
               </el-carousel>
           </div>
@@ -40,22 +38,25 @@
         </el-footer>
       </el-container>
     </el-container>
-    <div id="div1" v-for="item in Msg.news_message" :key="item.index">
-    <div v-on:click="goNextPage(item)" style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%;cursor: pointer" >
+    <div id="div1" v-for="(items) in Msg.news_message" :key="items.index">
+    <div v-on:click="goNextPage(items)" style="width:500px;height:180px; border-bottom:2px solid silver;margin-left: 14.6%;cursor: pointer" >
       <div style="float: left;">
-        <img  style="width: 200px;height: 120px;margin-top: 30px;" :src="item.picsUrl"/>
+        <img  style="width: 200px;height: 120px;margin-top: 30px;" :src="items.picsUrl"/>
       </div>
       <div style="float:left;width: 300px;height:100px;margin-top: 30px">
-          <h3 style="clear: both;">{{item.newsTitle}}</h3>
+          <h3 style="clear: both;">{{items.newsTitle}}</h3>
       </div>
     </div>
     </div>
+
+<div>
+
+</div>
     <div class="border_frame" style="position:absolute;top:75%;width: 421px;height:max-content;clear: both;margin-left: 66%">
-      <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="item in Msg.news_message" :key="item.index" v-show="item.topFlag=='true'">
-        <span>{{item.newsTitle}}</span>
+      <li style="font-size: 20px;cursor: pointer;float: inherit;;margin-top: 10px" v-for="news in ShuffleData" :key="news.index">
+        <span>{{news.newsTitle}}</span>
       </li>
     </div>
-
   </el-container>
 </template>
 
@@ -67,8 +68,8 @@
         return{
           Msg:{
             news_message:'',
-           // news:''
-          }
+          },
+          ShuffleData:'',
         }
       },
       methods:{
@@ -92,11 +93,31 @@
               // that.$router.push({ name: 'Home',params:{loginFlag:false}});
               console.log("输出长度"+res.data.length)
                         that.Msg.news_message=res.data
+
+            //  that.$forceUpdate();
             });
           }
+          {
+            this.axios({
+              method: 'get',
+              url: url,
+              params: {
+              },
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              },
+              /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+            }).then(function (res) {
+              // that.$router.push({ name: 'Home',params:{loginFlag:false}});
+
+              that.ShuffleData=res.data;
+              that.sortData();
+              //  that.$forceUpdate();
+            });
+          }
+            console.log("输出长度"+this.Msg.news_message.length)
+
         },
-
-
         getNewsVideo(){
           console.log("输出地址1")
           let that = this;
@@ -110,7 +131,6 @@
             },
             /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
           }).then(function (res) {
-
             console.log(res.data[1].topFlag);
             for (let i=0;i<res.data.length;i++)
             {
@@ -118,7 +138,6 @@
                 newsVideos=res.data[i];
               }
             }
-
             let url = "http://127.0.0.1:8080/newsPage/makeVideoTopOperate.json";
             that.axios({
               method: 'get',
@@ -136,13 +155,36 @@
             });
             // that.$router.push({ name: 'Home',params:{loginFlag:false}});
           });
-        }
+        },
+        sortData() {
+          console.log("sssss");
 
+
+          console.log( this.ShuffleData.length);
+          for (let i = 0; i < this.ShuffleData.length; i++) {
+            for (let j = 0; j < this.ShuffleData.length - i - 1; j++) {
+              // 这里说明为什么需要-1
+              if (this.ShuffleData[j].clickNumber<this.ShuffleData[j + 1].clickNumber) {
+                let temp = this.ShuffleData[j];
+                this.ShuffleData[j] = this.ShuffleData[j + 1];
+                this.ShuffleData[j + 1] = temp;
+              }
+            }
+          }
+        }
       },
 
       mounted(){
-this.getNewsMessage();
-this.getNewsVideo();
+        this.getNewsMessage();
+        let that=this;
+        setTimeout(() =>{
+          that.getNewsVideo();
+        },1000);
+
+      },
+      created()
+      {
+
       }
     }
 </script>

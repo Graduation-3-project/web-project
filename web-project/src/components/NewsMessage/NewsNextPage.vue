@@ -16,8 +16,30 @@
             gotMsg:''
           }
       },
+      methods:{
+        addClickNumber(item){
+
+          let urls = "http://127.0.0.1:8080/newsmessage/AddClickNumber.json";
+
+            this.axios({
+              method: 'post',
+              url: urls,
+              params:{
+                id:item.id
+              },
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              },
+              /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+            }).then(function (res) {
+            });
+
+        }
+
+      },
     mounted(){
       this.gotMsg=this.$route.params.items
+      this.addClickNumber(this.gotMsg);
     }
     }
 </script>

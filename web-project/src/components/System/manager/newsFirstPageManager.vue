@@ -16,7 +16,7 @@
         <!-- <el-button style="float: right" type="primary" v-on:click="saveVideo">保存视频</el-button>
 -->
         <div style="width:inherit;height: 50%;padding-bottom: 10px">
-          <div style="float: left;">
+          <div v-show="0" style="float: left;">
             <h1>图片轮播上传</h1>
             <el-upload
               :limit=4
@@ -30,12 +30,12 @@
             <el-dialog :visible.sync="dialogVisible" size="tiny">
               <img width="100%" :src="dialogImageUrl" alt="">
             </el-dialog>
-          </div>
+          </div >
           <div style="clear: both; border-bottom:2px solid rgba(143,66,246,0.15);">
 
         </div>
           <div style="margin-left: 10px;margin-top: 100px">
-            <h1 style="position: absolute;left: 10px;top:250px">上传首页视频</h1>
+            <h1 style="position: absolute;left: 10px;top:10px">上传首页视频</h1>
           <el-upload
             :limit=1
             style="border-radius: 4px;
@@ -53,12 +53,12 @@
           </div>
           <div style=" border-bottom:2px solid rgba(143,66,246,0.15);margin-top: 10px"></div>
 
-          <div style="margin-left: 10px;margin-top: 100px">
+          <div v-show="0" style="margin-left: 10px;margin-top: 100px">
             <h1 style="position: absolute;top: 550px">通知内容</h1>
             <el-input placeholder="请输入通知内容" style="width: 20%;position:absolute; left: 10px" v-model="Msg.specialNotice"/>
           </div>
             </div>
-        <div>
+        <div v-show="0">
           <el-button style="float: right" type="primary" v-on:click="saveVideo">保存</el-button>
         </div>
       </div>
