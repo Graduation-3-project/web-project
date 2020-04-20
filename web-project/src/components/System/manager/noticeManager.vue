@@ -36,6 +36,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div>
+      <el-dialog
+        title="用户信息"
+        :visible.sync="noticecheck.centerDialogVisible"
+        width="30%"
+        center>
+        <span slot="footer" class="dialog-footer">
+           <label>{{noticecheck.data}}</label>
+        </span>
+      </el-dialog>
+    </div>
  </div>
 </template>
 
@@ -46,11 +57,17 @@
         return{
           Msg:{
             noticeList:[]
-          }
+          },
+          noticecheck:{
+            centerDialogVisible: false,
+            data:''
+          },
         }
       },
       methods:{
         handleClick(row) {
+          this.noticecheck.centerDialogVisible=true;
+          this.noticecheck.data=row
           console.log(row);
         },
         getAllNotice(){

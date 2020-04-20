@@ -12,6 +12,11 @@
         width="150">
       </el-table-column>
       <el-table-column
+        prop="userLoginFlag"
+        label="在线标志"
+        width="120">
+      </el-table-column>
+      <el-table-column
         prop="userName"
         label="姓名"
         width="120">
@@ -24,6 +29,11 @@
       <el-table-column
         prop="userAge"
         label="年龄"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="userPassword"
+        label="密码"
         width="120">
       </el-table-column>
       <el-table-column

@@ -13,10 +13,13 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="NoticeAdd(notice)">提交</el-button>
-        <el-button @click="resetForm('notice')">重置</el-button>
       </el-form-item>
     </el-form>
+
+
+
   </div>
+
 </template>
 
 <script>
@@ -54,8 +57,6 @@
              }else {
                this.$alert("请填写完信息")
              }
-
-
 
           },
         NoticeJudge(){

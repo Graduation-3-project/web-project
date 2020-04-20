@@ -30,7 +30,7 @@
           :visible.sync="centerDialogVisible"
           width="90%"
           center>
-          <p>个人中心</p>
+          <p v-on:click="GoPersonalCenter">个人中心</p>
            <p>退出</p>
         </el-dialog>
       </el-menu-item>
@@ -96,8 +96,9 @@
             let paths='/'+path
             this.$router.push({path:paths});
           },
-
-
+          GoPersonalCenter(){
+            this.$router.push({path:"/FinishInfo"})
+          }
         },
       mounted(){
           //
