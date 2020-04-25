@@ -22,7 +22,7 @@
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
       <el-menu-item  v-show="loginFlag" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
       <el-menu-item  v-show="loginFlag" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
-      <el-menu-item  v-show="!loginFlag" index="9" style="margin-left: 27%;" v-on:click="GoNextPage('')">
+      <el-menu-item  v-show="!loginFlag" index="9" style="margin-left: 27%;">
         <img  style="width: 30px;height: 30px;margin-right:1%"  @click="centerDialogVisible = true" src="./../../assets/login.png"/>
         <el-dialog
           style="margin-left: 80%;"
@@ -30,20 +30,16 @@
           :visible.sync="centerDialogVisible"
           width="90%"
           center>
-          <p v-on:click="GoPersonalCenter">个人中心</p>
+          <p v-on:click="GoPersonalCenter">个人信息</p>
            <p>退出</p>
         </el-dialog>
       </el-menu-item>
 
     </el-menu>
 
-
    <!-- <div v-show="0" style="width:300px;height:200px;background: blueviolet;margin-left: 70%">
       personal_center
     </div>-->
-
-
-
 
     <el-container>
       <el-aside width="20%">
@@ -97,6 +93,8 @@
             this.$router.push({path:paths});
           },
           GoPersonalCenter(){
+
+            if(this.$route.path!="FinishInfo")
             this.$router.push({path:"/FinishInfo"})
           }
         },

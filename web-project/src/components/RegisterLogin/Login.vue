@@ -130,7 +130,8 @@
           ],
           db_User:{
             account_Num:'',
-            password_Num:''
+            password_Num:'',
+            id:''
           },
           i:0,
           j:2
@@ -139,7 +140,8 @@
                   local_Msg:{
                     login_Flat:'',
                     user_Account:'',
-                    user_Password:''
+                    user_Password:'',
+                    user_id:''
                   },
         },
 
@@ -250,8 +252,10 @@
         }
          this.randNumber=final;
         console.log("最终结果"+final)
+        console.log("randNumber最终结果"+this.randNumber)
       },
       identify_Code_Test(){
+        console.log("randNumber验证前结果"+this.randNumber)
         if(this.identify_Code==='')
         {
           this.code_Mag.i=1
@@ -321,12 +325,12 @@
         }
       },
       login() {
-
         let db_register_Flag = "";
         let that = this;
 
         console.log("账号密码测试"+that.user.password)
         console.log("账号密码测试"+that.user.account_Number)
+        console.log("randNumber登录前结果"+this.randNumber)
 
         let url = "http://127.0.0.1:8080/login/judeg.json";
         {
@@ -351,6 +355,7 @@
                  console.log("这是返回信息")
                  that.user_Msg.db_User.password_Num=res.data.userPassword;
                  that.user_Msg.db_User.account_Num=res.data.userTel;
+                 that.user_Msg.db_User.id=res.data.id;
                }
                      // that.$router.push({ name: 'Home',params:{loginFlag:false}});
           });
@@ -359,6 +364,7 @@
           setTimeout(() =>{
             if (this.user_Account_Test() && this.identify_Code_Test()) {
               if (this.final_Test()) {
+                this.cooki_setID();//设置每个用户登录后在本地的id
                 if (this.cooki_Msg.local_Msg.login_Flat === true) {
                   this.cooki_set();
                 } else {
@@ -366,7 +372,6 @@
                     this.$cookies.remove('user')
                   }
                 }
-
                 that.$router.push({ name: 'Home',params:{loginFlag:false}});
                 //在这里跳转
               }
@@ -394,7 +399,6 @@
       },
 
       cooki_set(){
-
         //this.$cookies.set(keyName, time)   //设置cooki
         //this.$cookies.get(keyName)       // 获取cooki
         //this.$cookies.isKey(keyName)        // 查看是否保存cooki
@@ -408,11 +412,11 @@
           this.cooki_Msg.local_Msg.login_Flat
           this.cooki_Msg.local_Msg.user_Account= this.user.account_Number
           this.cooki_Msg.local_Msg.user_Password= this.user.password
-          let user = {flag:this.cooki_Msg.local_Msg.login_Flat,time:time,account:this.cooki_Msg.local_Msg.user_Account, password:this.cooki_Msg.local_Msg.user_Password};
+          this.cooki_Msg.local_Msg.user_id=this.user_Msg.db_User.id
+          let user = {flag:this.cooki_Msg.local_Msg.login_Flat,time:time,account:this.cooki_Msg.local_Msg.user_Account, password:this.cooki_Msg.local_Msg.user_Password,id:this.cooki_Msg.local_Msg.user_id};
           this.$cookies.set('user',user);
           // print user name
           console.log("usercooki=="+this.$cookies.get('user').flag)
-
       },
       judge_LoginFlag(){
         if(this.$cookies.isKey('user'))
@@ -440,6 +444,12 @@
       },
       Register(){
         this.$router.push({path:'/Register'})
+      },
+      cooki_setID(){
+        let user = {id:this.user_Msg.db_User.id};
+        this.$cookies.set('userID',user);
+        console.log("输出用户cookiID"+  this.$cookies.get('userID').id);
+
       }
 
     },
@@ -454,7 +464,7 @@
 
       this.judge_LoginFlag();
       this.drawPic();
-      this.randNumber=''
+      //this.randNumber=''
     },
 
   }

@@ -7,7 +7,7 @@ const state = {
 number:1
 }
 const mutations = {
-numadd(state){
+  numadd(state){
   return state.number++;
 }
 }
