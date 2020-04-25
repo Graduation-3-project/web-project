@@ -97,26 +97,34 @@
           console.log("公网ip"+publicIp);
         },
         saveFinishedMsg(){
- console.log("发送前城市输出"+this .finishedMsg.location.region)
+
+          if(this.finishedMsg.userAge!=''&&this.finishedMsg.userGender!=''){
+
+
+            let url="http://127.0.0.1:8080/user/finishedMsg.json";
+            let that=this;
+            this.axios({
+              method: 'post',
+              url: url,
+              params:{
+                id:that.$cookies.get('userID').id,
+                userGender:that.finishedMsg.userGender,
+                userAge:that.finishedMsg.userAge
+              },
+              data: that.finishedMsg.location,
+              headers:{
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then(function (res) {
+              that.$alert(res.data);
+            });
+          }else {
+            this.$alert("请选填完信息")
+          }
+
+          console.log("发送前城市输出"+this .finishedMsg.location.region)
           console.log("usercooki=="+this.$cookies.get('userID').id)
 
-          let url="http://127.0.0.1:8080/user/finishedMsg.json";
-          let that=this;
-          this.axios({
-            method: 'post',
-            url: url,
-            params:{
-              id:that.$cookies.get('userID').id,
-              userGender:that.finishedMsg.userGender,
-              userAge:that.finishedMsg.userAge
-            },
-            data: that.finishedMsg.location,
-            headers:{
-              'Content-Type': 'application/json;charset=UTF-8'
-            }
-          }).then(function (res) {
-                    that.$alert(res.data);
-            });
           console.log("输出年龄"+this.finishedMsg.userAge)
           console.log("输出性别"+this.finishedMsg.userGender)
         },
