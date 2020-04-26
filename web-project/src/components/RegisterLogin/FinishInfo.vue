@@ -93,7 +93,6 @@
               newPassWord:'',
               dbPassWord:''
             },
-
           };
       },
       methods:{

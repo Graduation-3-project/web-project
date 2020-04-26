@@ -20,9 +20,9 @@
       <el-menu-item  index="2" style="margin-left: 2%" v-on:click="GoNextPage('News')">最新资讯</el-menu-item>
       <el-menu-item  index="3" style="margin-left: 2%" v-on:click="GoNextPage('HomePage')">交流园地</el-menu-item>
       <el-menu-item  index="4" style="margin-left: 2%" v-on:click="GoNextPage('')">最新通告</el-menu-item>
-      <el-menu-item  v-show="loginFlag" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
-      <el-menu-item  v-show="loginFlag" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
-      <el-menu-item  v-show="!loginFlag" index="9" style="margin-left: 27%;">
+      <el-menu-item  v-show="!loginFlag" index="7" style="margin-left: 20%"v-on:click="GoNextPage('Login')">登录</el-menu-item>
+      <el-menu-item  v-show="!loginFlag" index="8" style="margin-left: 1%" v-on:click="GoNextPage('Register')">注册</el-menu-item>
+      <el-menu-item  v-show="loginFlag" index="9" style="margin-left: 27%;">
         <img  style="width: 30px;height: 30px;margin-right:1%"  @click="centerDialogVisible = true" src="./../../assets/login.png"/>
         <el-dialog
           style="margin-left: 80%;"
@@ -31,7 +31,7 @@
           width="90%"
           center>
           <p v-on:click="GoPersonalCenter">个人信息</p>
-           <p>退出</p>
+          <p v-on:click="quitLogin">退出</p>
         </el-dialog>
       </el-menu-item>
 
@@ -96,6 +96,47 @@
 
             if(this.$route.path!="FinishInfo")
             this.$router.push({path:"/FinishInfo"})
+          },
+          getLoginFlag(){
+            let url="http://127.0.0.1:8080/user/findOneUser.json";
+            let that=this;
+            this.axios({
+              method: 'get',
+              url: url,
+              params:{
+                id:that.$cookies.get('userID').id,
+              },
+              headers:{
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then(function (res) {
+              if(res.data.userLoginFlag==='false'){
+                that.loginFlag=false
+              }
+              if(res.data.userLoginFlag==='true'){
+                that.loginFlag=true
+              }
+              console.log("得到输出登录标志"+ res.data.userLoginFlag)
+            });
+          },
+          quitLogin(){
+            let url="http://127.0.0.1:8080/login/quitLogin.json";
+            let that=this;
+            this.axios({
+              method: 'post',
+              url: url,
+              params:{
+                id:that.$cookies.get('userID').id,
+              },
+              headers:{
+                'Content-Type': 'application/json;charset=UTF-8'
+              }
+            }).then(function (res) {
+              that.loginFlag =false;
+              console.log("退出输出登录标志"+ that.loginFlag)
+            });
+            that.centerDialogVisible=false
+            this.$forceUpdate();
           }
         },
       mounted(){
@@ -104,6 +145,7 @@
         if(this.$route.params.loginFlag==false){
           this.loginFlag=this.$route.params.loginFlag
         }
+        this.getLoginFlag();
 
       }
     }
