@@ -1,7 +1,10 @@
 <template>
-  <div style="margin-top: 10%;">
-         <h1 style="margin-left: 3%;margin-top: 10px">完善信息</h1>
-     <el-form style="width: 340px;margin-left: 35%" :model="finishedMsg" ref="finishedMsg" label-width="100px" class="demo-ruleForm">
+  <div>
+
+
+  <div v-if="!db_User_Msg.userFinishMsgFlag" style="margin-top: 10%;">
+    <h1 style=";margin-top: 10px">完善信息</h1>
+    <el-form style="width: 340px;margin-left: 35%" :model="finishedMsg" ref="finishedMsg" label-width="100px" class="demo-ruleForm">
        <!-- label="年龄"-->
        <el-form-item
          prop="userAge"
@@ -29,7 +32,32 @@
   {{finishedMsg.userCity}}
 </el-form-item>
      </el-form>
+  </div>
 
+  <div v-if="db_User_Msg.userFinishMsgFlag" >
+    <h1 style=";margin-top: 10px">个人信息</h1>
+    <el-form style="float: left;margin-left: 10%;margin-top: 6%">
+      <el-form-item style="width: 500px;height: max-content;background: rgba(246,40,209,0.15)">
+        <h3>注册日期：{{db_User_Msg.dateCreated}}</h3>
+        <h3>用户性别：{{db_User_Msg.userGender}}</h3>
+        <h3>用户年龄：{{db_User_Msg.userAge}}</h3>
+        <h3>用户账号：{{db_User_Msg.userTel}}</h3>
+        <h3>所在国家：{{db_User_Msg.location.country}}</h3>
+        <h3>所在省份：{{db_User_Msg.location.region}}</h3>
+        <h3>所在城市：{{db_User_Msg.location.city}}</h3>
+      </el-form-item>
+    </el-form>
+    <el-form   style="float: right;margin-top: 6%;;margin-right: 10%;">
+      <el-form-item style="width: 500px;height: 410px;background: rgba(246,40,209,0.15)">
+        <h3>修改密码</h3>
+        <el-input type="password" :blur="modifyPassWordJudeg" v-model="passWord_mode.oldPassWord" placeholder="请输入原来密码" style="width: 50%"/>
+        <el-input type="password" :focus="modifyPassWordJudeg" v-model="passWord_mode.newPassWord" placeholder="请设置新密码" style="width: 50%;margin-top: 6%"/>
+        <el-input type="password" placeholder="再输入新密码" v-model="passWord_mode.tertainPassWord" style="width: 50%;margin-top: 6%"/>
+        <br/>
+        <el-button v-on:click="modifyPassWord()" style="margin-top: 12%" type="primary">确认</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
   </div>
 </template>
 
@@ -40,9 +68,6 @@
       data() {
           return{
             ip: '',
-            numberValidateForm: {
-              age: ''
-            },
             options: [
               {
               value: '男',
@@ -60,7 +85,14 @@
                 city:'西安',
                 country:'中国'
               },
-            }
+            },
+            db_User_Msg:'',
+            passWord_mode:{
+              oldPassWord:'',
+              tertainPassWord:'',
+              newPassWord:'',
+              dbPassWord:''
+            },
 
           };
       },
@@ -100,7 +132,6 @@
 
           if(this.finishedMsg.userAge!=''&&this.finishedMsg.userGender!=''){
 
-
             let url="http://127.0.0.1:8080/user/finishedMsg.json";
             let that=this;
             this.axios({
@@ -117,6 +148,7 @@
               }
             }).then(function (res) {
               that.$alert(res.data);
+              that.db_User_Msg.userFinishMsgFlag="true"
             });
           }else {
             this.$alert("请选填完信息")
@@ -124,10 +156,68 @@
 
           console.log("发送前城市输出"+this .finishedMsg.location.region)
           console.log("usercooki=="+this.$cookies.get('userID').id)
-
           console.log("输出年龄"+this.finishedMsg.userAge)
           console.log("输出性别"+this.finishedMsg.userGender)
         },
+        getUserMsg(){
+          let url="http://127.0.0.1:8080/user/findOneUser.json";
+          let that=this;
+          this.axios({
+            method: 'get',
+            url: url,
+            params:{
+              id:that.$cookies.get('userID').id,
+            },headers:{
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          }).then(function (res) {
+            that.db_User_Msg=res.data;
+            that.passWord_mode.dbPassWord=res.data.userPassword
+            console.log("输出信息完成标志"+  that.db_User_Msg.userFinishMsgFlag)
+          });
+          },
+        modifyPassWordOldJudeg(){
+          if(this.passWord_mode.oldPassWord===this.passWord_mode.dbPassWord){
+            return 1;
+          }else {
+            this.$alert("原始密码错误");
+            this.passWord_mode.oldPassWord=''
+            return 0;
+          }
+        },
+        modifyPassWordNewPassWordTertainJudeg(){
+
+          if(this.passWord_mode.newPassWord===this.passWord_mode.tertainPassWord){
+            return 1;
+          }else {
+            this.$alert("确认密码错误重新输入");
+            this.passWord_mode.tertainPassWord=''
+            return 0;
+          }
+        },
+        modifyPassWord(){
+         if(this.modifyPassWordNewPassWordTertainJudeg()&&this.modifyPassWordOldJudeg())
+         {
+           let url='http://127.0.0.1:8080/user/passwordUpdate.json';
+           let that=this;
+           this.axios({
+             url:url,
+             method:"post",
+             params:{
+               userPassword:that.passWord_mode.newPassWord,
+               id:that.$cookies.get('userID').id,
+             },
+             headers:{
+               'Content-Type': 'application/json;charset=UTF-8'
+             }
+           }).then(function (res) {
+             that.$alert(res.data);
+             that.passWord_mode.newPassWord='';
+             that.passWord_mode.tertainPassWord='';
+             that.passWord_mode.oldPassWord=''
+           })
+         }
+           },
         getLocaltionAddress(){
           let url="http://127.0.0.1:8080/ip/location.json";
           let that=this;
@@ -162,25 +252,20 @@
             console.log("市"+city)
           })
         },
-        submitForm(formName) {
-          this.$refs[formName].validate((valid) => {
-            if (valid) {
-              alert('submit!');
-            } else {
-              console.log('error submit!!');
-              return false;
-            }
-          });
-        },
       },
       mounted(){
         //console.log("userIdcooki=="+this.$cookies.get('userId').id)
 
+        this.getUserMsg();
         this.getUserIP((ip) => {
           this.ip = ip;
         });
         this.getOutIp();
-        //this.getLocaltionAddress();
+        if(this.db_User_Msg.userFinishMsgFlag=="false"){
+          //this.getLocaltionAddress();
+        }
+
+
       }
     }
 </script>
