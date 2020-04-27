@@ -10,6 +10,10 @@ import NewsNextPage from './../components/NewsMessage/NewsNextPage'
 import FinishInfo from '@/components/RegisterLogin/FinishInfo.vue'
 import LoginSystem from './../components/System/LoginSystem'
 import HomePage from './../components/ConmunicationSpace/HomePage'
+import MessageDisPlay from './../components/ConmunicationSpace/MessageDisPlay'
+import PersonSpace from './../components/ConmunicationSpace/PersonSpace'
+
+
 //import admin from './../components/System/admin'
 Vue.use(Router)
 
@@ -70,6 +74,16 @@ export default new Router({
       path: '/FinishInfo',
       name: 'FinishInfo',
       component: FinishInfo
+    },
+    {
+      path: '/MessageDisPlay',
+      name: 'MessageDisPlay',
+      component: MessageDisPlay
+    },
+    {
+      path: '/PersonSpace',
+      name: 'PersonSpace',
+      component: PersonSpace
     },
 
 

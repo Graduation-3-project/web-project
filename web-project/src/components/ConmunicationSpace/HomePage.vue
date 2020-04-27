@@ -2,39 +2,31 @@
   <el-container>
     <el-header style="padding: 0;margin: 0">
         <div style="display: inline;padding: 0;margin: 0">
-        <el-select
-        v-model="value9"
-        multiple
-        filterable
-        remote
-        reserve-keyword
-        placeholder="请输入关键词"
-        :remote-method="remoteMethod"
-        :loading="loading">
-        <el-option
-          v-for="item in options4"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-        </el-select>
-          <div class="manspace">
+          <div class="manspace" v-on:click="GoNextPage('PersonSpace')">
             个人空间
           </div>
         </div>
     </el-header>
-
-
     <el-container>
-
       <el-aside width="20%">
         <h3>热讯推荐</h3>
       </el-aside>
 
       <el-main>
-
         <div style="background: red">
           <h3>信息浏览</h3>
+        </div>
+
+
+
+        <div class="message" v-for="item in 10" v-on:click="GoNextPage('MessageDisPlay')">
+          <h1 style="cursor: pointer">上课的绿卡就是的拉萨扩大</h1>
+          <p style="width: 600px;cursor: pointer">
+          {{info}}
+          </p>
+          <div style="margin-bottom: 0;margin-left: 70%">
+            <p><span style=" color: rgba(246,29,29,1);font-size: 25px;"><img id="good" v-on:click="good" class="goodpic" src="./../../assets/good.png"/>{{num}}</span><span><img id="bad" class="badpic" v-on:click="bad"  src="./../../assets/bad.png"/>10</span></p>
+          </div>
         </div>
 
 
@@ -48,52 +40,6 @@
 
     </el-container>
     <el-footer>
-
-
-     <!-- <div>
-        <el-button v-popover:popover1>hover 激活</el-button>
-        <el-button v-popover:popover2>click 激活</el-button>
-
-
-
-        <el-popover
-          ref="popover1"
-          placement="top-start"
-          title="标题"
-          width="200"
-          trigger="hover"
-          content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-        </el-popover>
-
-
-        <el-popover
-          placement="right"
-          title="标题"
-          width="200"
-          trigger="focus"
-          content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-          <el-button slot="reference">focus 激活</el-button>
-
-        </el-popover>
-
-
-
-
-
-
-        <el-popover
-          ref="popover2"
-          placement="bottom"
-          title="标题"
-          width="200"
-          trigger="click"
-          content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-        </el-popover>
-
-
-
-      </div>-->
-
     </el-footer>
   </el-container>
 </template>
@@ -103,63 +49,52 @@
         name: "HomePage",
       data(){
           return{
-            options4: [],
-            value9: [],
-            list: [],
-            loading: false,
-            states: [
-              "Georgia", "Hawaii", "Idaho", "Illinois",
-              "Indiana", "Iowa", "Kansas", "Kentucky",
-              "Louisiana", "Maine", "Maryland",
-              "Massachusetts", "Michigan", "Minnesota",
-              "Mississippi", "Missouri", "Montana",
-              ]
+             info:'sad十九大拉开圣诞节了到喀什灯笼裤吉萨大绿卡就是领导看见看到撒娇空间的撒赖扩大就阿斯利康大家阿斯兰的空间als/kjdasl/kdjaskl/djlaks/jdlask/dja/slkjasl/kdj' +
+               'salk/djlk/sajd/laskjd/lkasjdl/as收到了看 阿斯达克欧卡都抛开雷克萨零三零kaASdkaS:LDkas;ldksa/dlkasj/ldjasl/kdjas/lkdjasl/kdjaskldjas/ldkjas/lkdj kdjl/ksajla/k就'
+          ,
+            num:10
           }
       },
       mounted(){
-        this.list = this.states.map(item => {
-          return { value: item, label: item };
-        });
+
       },
       methods:{
+        bad(){
 
-        remoteMethod(query) {
-          if (query !== '') {
-            this.loading = true;
-            setTimeout(() => {
-              this.loading = false;
-              this.options4 = this.list.filter(item => {
-                return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-              });
-            }, 200);
-          } else {
-            this.options4 = [];
-          }
         },
+        good(){
+          let obj = document.getElementById("good");
+          obj.style.cssText = ""
+          this.num++;
+          setTimeout({
+
+          },1000)
+         // obj.style.cssText = ""
+        },
+        GoNextPage(item){
+          //this.$router.push({path:"MessageDisPlay",params:{info:item}})
+          this.$router.push({path:"/"+item})
+        }
       }
     }
 </script>
-
-
 
 <style scoped>
   .el-header, .el-footer {
     /*background-color: #B3C0D1;
     color: #333;*/
     text-align: center;
-   line-height: 60px;
+    line-height: 60px;
   }
   .el-aside {
     background-color: #D3DCE6;
     color: #333;
     text-align: center;
-    line-height: 200px;
   }
   .el-main {
-    background-color: #E9EEF3;
-    color: #333;
+   /* background-color: #E9EEF3;*/
+   /* color: #333;*/
     text-align: center;
-    line-height: 160px;
   }
   .manspace{
     position: absolute;
@@ -171,5 +106,20 @@
     margin-right: 90px;
     cursor: pointer;
     display: inline
+  }
+  .message{
+    width: 700px;
+    height: 250px;
+    border-radius: 4px;
+    border-left:2px solid #000;
+    border-right:2px solid #000;
+    border-top :2px solid #000;
+    border-bottom:2px solid #000;
+  }
+  .goodpic{
+    width: 30px;height: 30px;cursor: pointer;
+  }
+  .badpic{
+    width: 30px;height: 30px;transform: rotate(180deg);cursor: pointer
   }
 </style>
