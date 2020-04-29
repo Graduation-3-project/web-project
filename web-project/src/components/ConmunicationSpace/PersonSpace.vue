@@ -45,7 +45,47 @@
 
     </div>
     <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==3">
-      这是组件03
+      <h1>动态发表页</h1>
+      <div>
+        <el-form>
+          <el-form-item>
+            <el-input style="width: 30%;" v-model="AllMsg.message.message_title"  placeholder="请输入标题" />
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              style="width: 30%;;margin-top: 30px"
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4}"
+              placeholder="请输入内容"
+              v-model="AllMsg.message.message_content">
+            </el-input>
+          </el-form-item>
+          <el-form-item >
+            <h4 style="left: 270px;position: absolute;">最多发表四张图片</h4>
+            <!--http://127.0.0.1:8080/message/Add.json-->
+            <!--https://jsonplaceholder.typicode.com/posts/-->
+
+            <el-upload
+              style="margin-top: 60px"
+              :limit=4
+              action="http://127.0.0.1:8080/message/save.json"
+              list-type="picture-card"
+              :on-success="onSuccess"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove">
+              <!-- :auto-upload=false-->
+              <i class="el-icon-plus"></i>
+            </el-upload>
+
+            <el-dialog :visible.sync="dialogVisible" size="tiny">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
+          <el-form-item>
+            <el-button v-on:click="saveMessage" type="primary" style="margin-left: 66%">发表</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
   </div>
@@ -72,7 +112,7 @@
                 DisPlayFlag:''//显示标志
               },
               {
-                ColumnName:'我的发表',//侧栏名称
+                ColumnName:'发表动态',//侧栏名称
                 DisPlayFlag:''//显示标志
               },],
             disPlay:0,
@@ -82,12 +122,22 @@
                 userProfile:''//用户图像
               },
               userdb_msg:'',
-            }
-
+            },
+            message:{
+              message_title:'',
+              message_content:'',
+              picsList:[],
+            },
+            /*{
+              picData:'',
+            }*/
           },
           info:"卡上电脑课萨拉的时刻都将asaldjsalkdjlkjasldkjajdflkdfjsdl/kslkfja.sklfj.kj是积分撒旦立刻集散地立刻附件是的离开js/dlkfjds/lkfjdsl/sk来得及ask了解到拉萨扩大流口水卢卡斯名单里面上课了吗撒旦卢卡斯打开了laksdn.asknd.k纳斯卡拿到了绿卡四年。kasnd.asknd.ksnas.dnsl",
-          imageUrl: ''
-
+          imageUrl: '',
+          textarea2: '',
+          textarea3: '',
+          dialogImageUrl: '',
+          dialogVisible: false
         }
       },
       methods:{
@@ -108,6 +158,59 @@
             this.$message.error('上传头像图片大小不能超过 2MB!');
           }
           return isJPG && isLt2M;
+        },
+        handleRemove(file, fileList) {
+          console.log(file, fileList);
+        },
+        handlePictureCardPreview(file) {
+          this.dialogImageUrl = file.url;
+          this.dialogVisible = true;
+        },
+        saveMessage(){
+
+          for(let item in this.AllMsg.message.picsList){
+            console.log("发表前输出"+this.AllMsg.message.picsList[item].picData)
+          }
+          let urls = "http://127.0.0.1:8080/message/Add.json";
+          let that=this;
+          this.axios({
+            method: 'post',
+            url: urls,
+            params:{
+              messageTitle:that.AllMsg.message.message_title,
+              messageContent:that.AllMsg.message.message_content,
+             /* picsSet:that.AllMsg.message.picsList*/
+            },
+           /* data:that.AllMsg.message.picsList,*/
+            data:that.AllMsg.message.picsList,
+            /* picsSet:that.AllMsg.messagePics*/
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            that.$alert(res.data)
+          });
+        },
+        UpLoadPic(){
+          //http://127.0.0.1:8080/message/Add.json
+          console.log("上传图片")
+        },
+        onSuccess(response, file, fileList){
+
+          console.log("输出图片编码函数")
+          let that = this;
+          var reader = new FileReader();
+          reader.readAsDataURL(file.raw);
+          reader.onload = function(e){
+            this.result  // 这个就是base64编码
+            that.AllMsg.message.picsList.push({
+              picData:this.result
+            }),
+           // that.AllMsg.messagePic=this.result;
+          console.log("输出图片编码"+this.result )
+          }
+          console.log("图片上传成功")
         }
       }
     }
