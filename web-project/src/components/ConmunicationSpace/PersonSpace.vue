@@ -19,15 +19,16 @@
       <div>
         <label style="position: absolute;top: 25%;left: 32%">上传图像</label>
         <el-upload
+          ref="modifyUserMsg"
           class="elUploadClass"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://127.0.0.1:8080/message/save.json"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-button type="primary" style="margin-left: 68%">确定</el-button>
+        <el-button v-on:click="saveModify()" type="primary" style="margin-left: 68%">确定</el-button>
       </div>
     </div>
 
@@ -66,6 +67,7 @@
             <!--https://jsonplaceholder.typicode.com/posts/-->
 
             <el-upload
+              ref="upload"
               style="margin-top: 60px"
               :limit=4
               action="http://127.0.0.1:8080/message/save.json"
@@ -145,6 +147,13 @@
             this.AllMsg.disPlay=index
         },
         handleAvatarSuccess(res, file) {
+          console.log("输出图片编码函数")
+          let that = this;
+          var reader = new FileReader();
+          reader.readAsDataURL(file.raw);
+          reader.onload = function(e) {
+           that.AllMsg.userMsg.modifyMsg.userProfile= this.result  // 这个就是base64编码
+          }
           this.imageUrl = URL.createObjectURL(file.raw);
         },
         beforeAvatarUpload(file) {
@@ -167,10 +176,6 @@
           this.dialogVisible = true;
         },
         saveMessage(){
-
-          for(let item in this.AllMsg.message.picsList){
-            console.log("发表前输出"+this.AllMsg.message.picsList[item].picData)
-          }
           let urls = "http://127.0.0.1:8080/message/Add.json";
           let that=this;
           this.axios({
@@ -191,11 +196,46 @@
           }).then(function (res) {
             that.$alert(res.data)
           });
+          this.clearSavedMessage();
         },
-        UpLoadPic(){
-          //http://127.0.0.1:8080/message/Add.json
-          console.log("上传图片")
+        clearSavedMessage(){
+          //发表完清空变量信息
+          this.$refs.upload.clearFiles();
+          this.AllMsg.message.picsList=[];
+          this.AllMsg.message.message_content='';
+          this.AllMsg.message.message_title='';
         },
+        saveModify(){
+           //保存修改
+          let urls = "http://127.0.0.1:8080/user/modifyUserMsg.json";
+          let that=this;
+          this.axios({
+            method: 'post',
+            url: urls,
+            params:{
+              id:that.$cookies.get('userID').id,
+              userProfileUrl:that.AllMsg.userMsg.modifyMsg.userProfile,
+              userScreenName:that.AllMsg.userMsg.modifyMsg.userScreenName,
+              /* picsSet:that.AllMsg.message.picsList*/
+            },
+            /* data:that.AllMsg.message.picsList,*/
+            /* picsSet:that.AllMsg.messagePics*/
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            that.$alert(res.data)
+          });
+
+
+
+          this.clearModifyMsg();
+        },
+        clearModifyMsg(){
+          this.$refs.modifyUserMsg.clearFiles();
+        },
+
         onSuccess(response, file, fileList){
 
           console.log("输出图片编码函数")
@@ -211,7 +251,7 @@
           console.log("输出图片编码"+this.result )
           }
           console.log("图片上传成功")
-        }
+        },
       }
     }
 </script>

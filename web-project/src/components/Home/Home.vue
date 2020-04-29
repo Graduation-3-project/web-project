@@ -63,7 +63,6 @@
     </el-container>
 
 
-
   </div>
 
 </template>
@@ -77,7 +76,7 @@
           display:'',
           allMessageData:'',
           centerDialogVisible:false,
-          loginFlag:true
+          loginFlag:false
         }
       },
         methods: {
@@ -142,10 +141,13 @@
       mounted(){
           //
         console.log("Home"+this.$route.params.loginFlag);
-        if(this.$route.params.loginFlag==false){
+        /*if(this.$route.params.loginFlag==false){
           this.loginFlag=this.$route.params.loginFlag
+        }*/
+        if(this.$cookies.get('userID').id){
+
+          this.getLoginFlag();
         }
-        this.getLoginFlag();
 
       }
     }
