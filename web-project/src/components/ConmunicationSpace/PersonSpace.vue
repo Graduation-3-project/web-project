@@ -1,8 +1,8 @@
 <template>
   <div>
     <div style="margin-top: 10px;margin-left: 90%">
-      <p><img style="width: 50px;height:50px;cursor: pointer" src="./../../assets/login.png"/></p>
-      <h3>太阳花</h3>
+      <p><img style="width: 50px;height:50px;cursor: pointer" :src="AllMsg.userMsg.userdb_msg.userProfileUrl"/></p>
+      <h3>{{AllMsg.userMsg.userdb_msg.userScreenName}}</h3>
     </div>
 
 <div>
@@ -38,12 +38,11 @@
     <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==2">
       <h1>历史发表页</h1>
       <div style="position: absolute;top: 20%;left: 10%">
-        <div class="historyMsg">
-        <h3>撒可见度涉及到</h3>
-          <p>{{info}}</p>
+        <div class="historyMsg" v-for="item in AllMsg.userMsg.userdb_msg.messageList">
+        <h3>{{item.messageTitle}}</h3>
+          <p>{{item.messageContent}}</p>
         </div>
       </div>
-
     </div>
     <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==3">
       <h1>动态发表页</h1>
@@ -136,8 +135,6 @@
           },
           info:"卡上电脑课萨拉的时刻都将asaldjsalkdjlkjasldkjajdflkdfjsdl/kslkfja.sklfj.kj是积分撒旦立刻集散地立刻附件是的离开js/dlkfjds/lkfjdsl/sk来得及ask了解到拉萨扩大流口水卢卡斯名单里面上课了吗撒旦卢卡斯打开了laksdn.asknd.k纳斯卡拿到了绿卡四年。kasnd.asknd.ksnas.dnsl",
           imageUrl: '',
-          textarea2: '',
-          textarea3: '',
           dialogImageUrl: '',
           dialogVisible: false
         }
@@ -184,6 +181,7 @@
             params:{
               messageTitle:that.AllMsg.message.message_title,
               messageContent:that.AllMsg.message.message_content,
+              id:that.$cookies.get('userID').id,
              /* picsSet:that.AllMsg.message.picsList*/
             },
            /* data:that.AllMsg.message.picsList,*/
@@ -252,6 +250,26 @@
           }
           console.log("图片上传成功")
         },
+        getUserInfo(){
+          let url="http://127.0.0.1:8080/user/findOneUser.json";
+          let that=this;
+          this.axios({
+            method: 'get',
+            url: url,
+            params:{
+              id:that.$cookies.get('userID').id,
+            },
+            headers:{
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          }).then(function (res) {
+            that.AllMsg.userMsg.userdb_msg=res.data;
+            console.log("输出用户明"+that.AllMsg.userMsg.userdb_msg.userScreenName)
+          });
+        }
+      },
+      mounted(){
+        this.getUserInfo();
       }
     }
 </script>

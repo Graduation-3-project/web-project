@@ -7,29 +7,26 @@
           </div>
         </div>
     </el-header>
+
     <el-container>
       <el-aside width="20%">
         <h3>热讯推荐</h3>
       </el-aside>
 
       <el-main>
-        <div style="background: red">
-          <h3>信息浏览</h3>
+       <!-- <div style="">
+          <h1>动态浏览</h1>
         </div>
-
-
-
-        <div class="message" v-for="item in 10" v-on:click="GoNextPage('MessageDisPlay')">
-          <h1 style="cursor: pointer">上课的绿卡就是的拉萨扩大</h1>
-          <p style="width: 600px;cursor: pointer">
-          {{info}}
+-->
+        <div class="message" v-for="(item,index) in AllMsg.allMessageList" >
+          <h1 style="cursor: pointer">{{item.messageTitle}}</h1>
+          <p style="width: 600px;cursor: pointer" v-on:click="GoNextPage('MessageDisPlay',AllMsg.allMessageList[index])">
+          {{item.messageContent}}
           </p>
           <div style="margin-bottom: 0;margin-left: 70%">
-            <p><span style=" color: rgba(246,29,29,1);font-size: 25px;"><img id="good" v-on:click="good" class="goodpic" src="./../../assets/good.png"/>{{num}}</span><span><img id="bad" class="badpic" v-on:click="bad"  src="./../../assets/bad.png"/>10</span></p>
+            <p><span style=" color: rgba(246,29,29,1);font-size: 25px;"><img id="good" v-on:click="good(item.id,index)" class="goodpic" src="./../../assets/good.png"/>{{item.message_goodPointNumber}}</span><span><img id="bad" class="badpic" v-on:click="bad(item.id,index)"  src="./../../assets/bad.png"/>{{item.message_badPointNumber}}</span></p>
           </div>
         </div>
-
-
       </el-main>
 
       <el-aside width="30%" style="padding: 0" >
@@ -49,31 +46,78 @@
         name: "HomePage",
       data(){
           return{
-             info:'sad十九大拉开圣诞节了到喀什灯笼裤吉萨大绿卡就是领导看见看到撒娇空间的撒赖扩大就阿斯利康大家阿斯兰的空间als/kjdasl/kdjaskl/djlaks/jdlask/dja/slkjasl/kdj' +
-               'salk/djlk/sajd/laskjd/lkasjdl/as收到了看 阿斯达克欧卡都抛开雷克萨零三零kaASdkaS:LDkas;ldksa/dlkasj/ldjasl/kdjas/lkdjasl/kdjaskldjas/ldkjas/lkdj kdjl/ksajla/k就'
-          ,
-            num:10
+            AllMsg:{
+              allMessageList:[],
+            },
           }
       },
       mounted(){
-
+      this.getAllMsg();
       },
       methods:{
-        bad(){
-
+        bad(id,num){
+          console.log("输出不点赞"+id)
+          let urls = "http://127.0.0.1:8080/message/pointBad.json";
+          let that=this;
+          this.axios({
+            method: 'post',
+            url: urls,
+            params:{
+              id:id,
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+          });
+          this.AllMsg.allMessageList[num].message_badPointNumber++;
         },
-        good(){
+        good(id,num){
+          console.log("输出点赞"+id)
+            let urls = "http://127.0.0.1:8080/message/pointGood.json";
+            let that=this;
+            this.axios({
+              method: 'post',
+              url: urls,
+              params:{
+                id:id,
+              },
+              headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+              },
+              /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+            }).then(function (res) {
+            });
+          this.AllMsg.allMessageList[num].message_goodPointNumber++;
+
           let obj = document.getElementById("good");
           obj.style.cssText = ""
           this.num++;
           setTimeout({
-
           },1000)
          // obj.style.cssText = ""
         },
-        GoNextPage(item){
-          //this.$router.push({path:"MessageDisPlay",params:{info:item}})
-          this.$router.push({path:"/"+item})
+        GoNextPage(path,message){
+
+          this.$router.push({name:path,params:{message:message}})
+          //this.$router.push({ name: 'Home',params:{loginFlag:true}});
+        },
+        getAllMsg(){
+          let urls = "http://127.0.0.1:8080/message/findAll.json";
+          let that=this;
+          this.axios({
+            method: 'get',
+            url: urls,
+            /* data:that.AllMsg.message.picsList,*/
+            /* picsSet:that.AllMsg.messagePics*/
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            that.AllMsg.allMessageList=res.data;
+          });
         }
       }
     }
@@ -108,7 +152,7 @@
     display: inline
   }
   .message{
-    width: 700px;
+    width: 620px;
     height: 250px;
     border-radius: 4px;
     border-left:2px solid #000;

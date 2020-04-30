@@ -136,19 +136,15 @@
             });
             that.centerDialogVisible=false
             this.$forceUpdate();
-          }
+          },
+
         },
       mounted(){
           //
         console.log("Home"+this.$route.params.loginFlag);
-        /*if(this.$route.params.loginFlag==false){
-          this.loginFlag=this.$route.params.loginFlag
-        }*/
         if(this.$cookies.get('userID').id){
-
           this.getLoginFlag();
         }
-
       }
     }
 </script>

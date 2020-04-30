@@ -15,9 +15,10 @@
           </el-form-item>
           <el-form-item>
             <label>上传封面:</label>
+            <!--http://127.0.0.1:8080/newsPage/ads.json-->
             <el-upload
               :on-success="savePic"
-              action="http://127.0.0.1:8080/newsPage/ads.json"
+              action="http://127.0.0.1:8080/message/save.json"
               list-type="picture-card"
               :on-preview="handlePictureCardPreview"
               :on-remove="handleRemove">
