@@ -99,7 +99,6 @@
          // obj.style.cssText = ""
         },
         GoNextPage(path,message){
-
           this.$router.push({name:path,params:{message:message}})
           //this.$router.push({ name: 'Home',params:{loginFlag:true}});
         },

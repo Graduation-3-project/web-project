@@ -43,7 +43,6 @@
 
 
 
-
         <el-dialog
           :visible.sync="AllMsg.replyOthers.replydialogVisible"
           width="60%" >
@@ -61,12 +60,8 @@
             <el-button style="margin-left: 10%" v-on:click="Reply()"  type="primary">发送</el-button>
           </div>
         </el-dialog>
-
-
-
       </div>
     </div>
-
   </div>
 </div>
 </template>
@@ -137,6 +132,10 @@
           }).then(function (res) {
             that.$alert(res.data)
           });
+
+          that.AllMsg.replyOthers.replyCommentContent='';
+          that.AllMsg.replyOthers.replydialogVisible=false
+
         },
         handleClose(done) {
           this.$confirm('确认关闭？')
@@ -234,15 +233,15 @@
             });
             that.AllMsg.commentMsg.commentContent=''
           },
-          GetOneMessage(){
-            console.log("评论")
+          GetOneMessageComment(){
+            console.log("GetOneMessageComment")
             let urls = "http://127.0.0.1:8080/messageComment/findById.json";
             let that=this;
             this.axios({
               method: 'post',
               url: urls,
               params:{
-                id:that.AllMsg.message.id,//message的id
+                id:this.$cookies.get("messageId").id//that.AllMsg.message.id,//message的id
               },
               headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
@@ -254,13 +253,51 @@
              // console.log("输出回复长度"+res.data.)
               console.log("输出评论长度"+res.data.messageCommentSet.length)
             });
-          }
+          },
+        GetOneMessage(){
+          console.log("GetOneMessage")
+          console.log("输出cooki的id="+this.$cookies.get("messageId").id)
+          let urls = "http://127.0.0.1:8080/message/messageGetOne.json";
+          let that=this;
+          this.axios({
+            method: 'get',
+            url: urls,
+            params:{
+              id:this.$cookies.get("messageId").id,//message的id
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            that.AllMsg.message=res.data;
+            that.AllMsg.dbCommentMsg=res.data.messageCommentSet;
+
+            // that.AllMsg.dbCommentReplyMsg=res.data.messageCommentReplySet
+            // console.log("输出回复长度"+res.data.)
+          });
+        }
       },
       mounted(){
-        this.AllMsg.message=this.$route.params.message;
 
-         this.GetOneMessage()
-          console.log("输出标题"+this.$route.params.message)
+        if(this.$route.params.message==null){
+          console.log("输出cooki的id000")
+          this.GetOneMessage()
+          /*+this.$cookies.get("messageId").id*/
+        }
+        if(this.$route.params.message!=null)
+        {
+          this.AllMsg.message=this.$route.params.message;
+          console.log("输出cooki的id111")
+          let messageId={id:this.$route.params.message.id}
+          this.$cookies.set('messageId',messageId);
+        }
+
+        let that=this;
+        setTimeout(() =>{
+          that.GetOneMessageComment();
+        },1000);
+         // console.log("输出标题"+this.$route.params.message)
       }
 
     }

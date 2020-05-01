@@ -4,7 +4,6 @@
       <p><img style="width: 50px;height:50px;cursor: pointer" :src="AllMsg.userMsg.userdb_msg.userProfileUrl"/></p>
       <h3>{{AllMsg.userMsg.userdb_msg.userScreenName}}</h3>
     </div>
-
 <div>
     <div style="width: 300px;height: 560px;background:rgba(246,138,107,0.21);position: absolute">
       <div style="margin-top: 60px" v-for="(item,index) in AllMsg.Meuns">
@@ -35,10 +34,10 @@
     <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==1">
       这是组件01
     </div>
-    <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==2">
+    <div style="width: inherit;height: inherit;background: red" v-show="AllMsg.disPlay==2">
       <h1>历史发表页</h1>
-      <div style="position: absolute;top: 20%;left: 10%">
-        <div class="historyMsg" v-for="item in AllMsg.userMsg.userdb_msg.messageList">
+      <div style="position: absolute;top: 20%;left: 10%;width: 80%">
+        <div class="historyMsg" v-for="item in AllMsg.userMsg.userdb_msg.messageList" v-on:click="GoNextPage('MessageDisPlay',item)">
         <h3>{{item.messageTitle}}</h3>
           <p>{{item.messageContent}}</p>
         </div>
@@ -140,6 +139,11 @@
         }
       },
       methods:{
+        GoNextPage(path,message){
+
+          this.$router.push({name:path,params:{message:message}})
+          //this.$router.push({ name: 'Home',params:{loginFlag:true}});
+        },
         ChoseColunm(index){
             this.AllMsg.disPlay=index
         },
@@ -225,8 +229,6 @@
           }).then(function (res) {
             that.$alert(res.data)
           });
-
-
 
           this.clearModifyMsg();
         },
