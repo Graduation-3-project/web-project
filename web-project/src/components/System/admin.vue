@@ -22,6 +22,10 @@
               <el-menu-item index="1-1" v-on:click="goNextPage('userManager')">用户管理</el-menu-item>
              <!-- <el-menu-item index="1-2">选项2</el-menu-item>-->
             </el-menu-item-group>
+            <el-menu-item-group >
+              <el-menu-item index="1-2" v-on:click="goNextPage('addUserManager')">添加管理员</el-menu-item>
+              <!-- <el-menu-item index="1-2">选项2</el-menu-item>-->
+            </el-menu-item-group>
           </el-submenu>
 
 
@@ -55,7 +59,6 @@
             <el-menu-item-group>
               <el-menu-item index="1-1" v-on:click="goNextPage('noticeManager')">同告管理</el-menu-item>
               <el-menu-item index="1-2" v-on:click="goNextPage('noticeEdit')">通告编辑</el-menu-item>
-
             </el-menu-item-group>
           </el-submenu>
 

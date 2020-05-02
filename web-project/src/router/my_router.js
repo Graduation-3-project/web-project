@@ -11,6 +11,7 @@ import userManager from './../components/System/manager/userManager.vue'
 import newsEdit from './../components/System/manager/newsEdit'
 import newsFirstPageManager from './../components/System/manager/newsFirstPageManager'
 import noticeEdit from './../components/System/manager/noticeEdit'
+import addUserManager from './../components/System/manager/addUserManager'
 
 
 Vue.use(Router)
@@ -61,6 +62,11 @@ export default {
           path: 'noticeEdit',
           name: 'noticeEdit',
           component: noticeEdit,
+        },
+        {
+          path: 'addUserManager',
+          name: 'addUserManager',
+          component: addUserManager,
         },
 
 

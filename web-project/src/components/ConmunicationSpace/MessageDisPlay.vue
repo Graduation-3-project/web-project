@@ -292,14 +292,12 @@
           let messageId={id:this.$route.params.message.id}
           this.$cookies.set('messageId',messageId);
         }
-
         let that=this;
         setTimeout(() =>{
           that.GetOneMessageComment();
         },1000);
          // console.log("输出标题"+this.$route.params.message)
       }
-
     }
 </script>
 

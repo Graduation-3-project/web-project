@@ -6,14 +6,11 @@
       <label style="font-size: 20px;vertical-align:bottom;" >账号</label><el-input style="margin-left: 10px;" v-model="users.account" />
     </el-form-item>
     <el-form-item style="margin-top: 3%">
-      <label style="font-size: 20px;vertical-align:bottom;" >密码</label><el-input style="margin-left: 10px;" v-model="users.password" />
+      <label style="font-size: 20px;vertical-align:bottom;" >密码</label><el-input type="password" style="margin-left: 10px;" v-model="users.password" />
     </el-form-item>
     <el-form-item style="margin-top: 0;padding: 0">
 
-      <el-button  type="primary" style="width: 25%;margin-top: 30px;margin-left: 3.5%">登录</el-button>
-      <div v-show="users.Tips">
-        <h4 style="color: red;margin-left: 3.8%">账号或密码不正确</h4>
-      </div>
+      <el-button  v-on:click="loginSystem()" type="primary" style="width: 25%;margin-top: 30px;margin-left: 3.5%">登录</el-button>
     </el-form-item>
   </el-form>
 </div>
@@ -30,16 +27,39 @@
             users:{
               password:'',
               account:'',
-              Tips:false
+              type:''
             }
           }
       },
       methods:{
+              loginSystem(){
+                let url="http://127.0.0.1:8080/administrator/login"
+                let that=this;
+                this.axios({
+                  method:"post",
+                  url:url,
+                  data:that.users,
+                  headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                  },
+                }).then(function (res) {
+                  if(res.data){
+                    that.GoNextPage()
+                  }else {
+                    that.$alert("登录失败")
+                  }
+                })
 
+              },
+              GoNextPage(){
+                this.$router.addRoutes(my_routes.routes)
+                console.log("LoginSystem")
+                this.$router.push({path:'/admin'})
+              }
       },
       mounted()
       {
-       console.log("输出我的路由"+my_routes.routes)
+       //console.log("输出我的路由"+my_routes.routes)
         //动态添加路由
       /*  this.$router.addRoutes([
         {
@@ -52,9 +72,9 @@
           }
         },
       ])*/
-        this.$router.addRoutes(my_routes.routes)
-        console.log("LoginSystem")
-        this.$router.push({path:'/admin'})
+        //this.$router.addRoutes(my_routes.routes)
+       // console.log("LoginSystem")
+      //  this.$router.push({path:'/admin'})
 
       }
     }
