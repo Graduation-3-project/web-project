@@ -31,8 +31,31 @@
       </div>
     </div>
 
-    <div style="width: inherit;height: inherit;" v-show="AllMsg.disPlay==1">
-      这是组件01
+    <div style="width: inherit;height: inherit;" v-on:click="AllMsg.replyOthers.replydialogVisible=true"   v-show="AllMsg.disPlay==1">
+      <h1>信息交互页</h1>
+      <div style="position: absolute;top: 20%;left: 10%;width: 80%">
+        <div
+          width="60%" >
+          <div v-for="item in AllMsg.userMsg.userdb_msg.messageList ">
+            <p style="color: black;">{{item.messageTitle}}</p>
+            <div v-for=" (comment,index) in item.messageCommentSet">
+              <div v-for="items in comment.messageCommentReplySet">
+              <p style="margin-top: 10px;text-align: center"><span>{{items.messageFromUserName}}:</span><span>:>{{items.messageToUserName}}：：：</span>{{items.replyCommentContent}}<el-button v-on:click="showInputFrame(index,items)"  type="text" style="color: silver;margin-left: 30px;">回复他/她</el-button></p>
+              </div>
+              </div>
+            </div>
+          <div v-show="AllMsg.replyOthers.showInputFrame">
+            <el-input
+              style="width: 30%"
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="AllMsg.replyOthers.replyCommentContent">
+            </el-input>
+            <el-button style="margin-left: 10%" v-on:click="Reply()"  type="primary">发送</el-button>
+          </div>
+        </div>
+      </div>
     </div>
     <div style="width: inherit;height: inherit;background: red" v-show="AllMsg.disPlay==2">
       <h1>历史发表页</h1>
@@ -128,17 +151,55 @@
               message_content:'',
               picsList:[],
             },
-            /*{
-              picData:'',
-            }*/
+            replyOthers:{
+              showInputFrame:false,
+              willReplyCommentMsg:'',
+              replyCommentContent:'',
+              messageFromUserId:'',
+              messageToUserId:'',
+
+            }
           },
-          info:"卡上电脑课萨拉的时刻都将asaldjsalkdjlkjasldkjajdflkdfjsdl/kslkfja.sklfj.kj是积分撒旦立刻集散地立刻附件是的离开js/dlkfjds/lkfjdsl/sk来得及ask了解到拉萨扩大流口水卢卡斯名单里面上课了吗撒旦卢卡斯打开了laksdn.asknd.k纳斯卡拿到了绿卡四年。kasnd.asknd.ksnas.dnsl",
           imageUrl: '',
           dialogImageUrl: '',
           dialogVisible: false
         }
       },
       methods:{
+        showInputFrame(index,items){
+          console.log("index输出"+index)
+          console.log("items输出"+items)
+          this.AllMsg.replyOthers.showInputFrame=true;
+          this.AllMsg.replyOthers.willReplyCommentMsg=items
+        },
+        Reply(){
+
+          let urls = "http://127.0.0.1:8080/messageCommentReply/peopleToPeople.json";
+          let that=this;
+
+          console.log("输出id"+that.AllMsg.replyOthers.willReplyCommentMsg.messageId)
+          this.axios({
+            method: 'post',
+            url: urls,
+            params:{
+              // messageId:that.AllMsg.replyOthers.willReplyCommentMsg.messageId,
+              messageCommentId:that.AllMsg.replyOthers.willReplyCommentMsg.messageCommentId,
+              replyCommentContent:that.AllMsg.replyOthers.replyCommentContent,
+              messageFromUserId:this.$cookies.get('userID').id,
+              messageToUserId:that.AllMsg.replyOthers.willReplyCommentMsg.messageFromUserId,
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
+            that.$alert(res.data)
+          });
+
+          that.AllMsg.replyOthers.replyCommentContent='';
+          that.AllMsg.replyOthers.replydialogVisible=false
+
+        },
         GoNextPage(path,message){
 
           this.$router.push({name:path,params:{message:message}})
