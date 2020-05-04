@@ -2,7 +2,7 @@
   <div>
 
 
-  <div v-if="!db_User_Msg.userFinishMsgFlag" style="margin-top: 10%;">
+  <div v-if="db_User_Msg.userFinishMsgFlag==='false'" style="margin-top: 10%;">
     <h1 style=";margin-top: 10px">完善信息</h1>
     <el-form style="width: 340px;margin-left: 35%" :model="finishedMsg" ref="finishedMsg" label-width="100px" class="demo-ruleForm">
        <!-- label="年龄"-->
@@ -34,7 +34,7 @@
      </el-form>
   </div>
 
-  <div v-if="db_User_Msg.userFinishMsgFlag" >
+  <div v-if="db_User_Msg.userFinishMsgFlag==='true'" >
     <h1 style=";margin-top: 10px">个人信息</h1>
     <el-form style="float: left;margin-left: 10%;margin-top: 6%">
       <el-form-item style="width: 500px;height: max-content;background: rgba(246,40,209,0.15)">
@@ -50,8 +50,8 @@
     <el-form   style="float: right;margin-top: 6%;;margin-right: 10%;">
       <el-form-item style="width: 500px;height: 410px;background: rgba(246,40,209,0.15)">
         <h3>修改密码</h3>
-        <el-input type="password" :blur="modifyPassWordJudeg" v-model="passWord_mode.oldPassWord" placeholder="请输入原来密码" style="width: 50%"/>
-        <el-input type="password" :focus="modifyPassWordJudeg" v-model="passWord_mode.newPassWord" placeholder="请设置新密码" style="width: 50%;margin-top: 6%"/>
+        <el-input type="password"  v-model="passWord_mode.oldPassWord" placeholder="请输入原来密码" style="width: 50%"/>
+        <el-input type="password"  v-model="passWord_mode.newPassWord" placeholder="请设置新密码" style="width: 50%;margin-top: 6%"/>
         <el-input type="password" placeholder="再输入新密码" v-model="passWord_mode.tertainPassWord" style="width: 50%;margin-top: 6%"/>
         <br/>
         <el-button v-on:click="modifyPassWord()" style="margin-top: 12%" type="primary">确认</el-button>
@@ -147,7 +147,8 @@
               }
             }).then(function (res) {
               that.$alert(res.data);
-              that.db_User_Msg.userFinishMsgFlag="true"
+              that.getUserMsg()
+
             });
           }else {
             this.$alert("请选填完信息")
@@ -241,14 +242,15 @@
                  * "country_id": "CN",
                   * "country": "中国" }*/
             that.finishedMsg.location.city=res.data.data.city;
+            console.log("市"+res.data.data.city)
             that.finishedMsg.location.country=res.data.data.country;
             that.finishedMsg.location.region=res.data.data.region;
-            let region =res.data.data.region;
-            let city=res.data.data.city;
-            let country=res.data.data.country;
-            console.log("国"+country)
-            console.log("省"+region)
-            console.log("市"+city)
+            //let region =res.data.data.region;
+            //let city=res.data.data.city;
+            //let country=res.data.data.country;
+            //console.log("国"+country)
+            //console.log("省"+region)
+            //console.log("市"+city)
           })
         },
       },
@@ -261,7 +263,7 @@
         });
         this.getOutIp();
         if(this.db_User_Msg.userFinishMsgFlag=="false"){
-          //this.getLocaltionAddress();
+         // this.getLocaltionAddress();
         }
 
 

@@ -72,9 +72,9 @@
           }
         },
       ])*/
-        //this.$router.addRoutes(my_routes.routes)
-       // console.log("LoginSystem")
-      //  this.$router.push({path:'/admin'})
+        this.$router.addRoutes(my_routes.routes)
+        console.log("LoginSystem")
+        this.$router.push({path:'/admin'})
 
       }
     }

@@ -21,6 +21,11 @@ Vue.use(VueCookies)
 //富文本编译器
 import Vue2Editor from "vue2-editor";
 Vue.use(Vue2Editor);
+
+import echarts from 'echarts'
+Vue.prototype.echarts = echarts
+Vue.use(echarts);
+
 /*
 import VueHtml5Editor from 'vue-html5-editor'
 Vue.use(VueHtml5Editor,options);*/
