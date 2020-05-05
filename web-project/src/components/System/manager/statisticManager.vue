@@ -1,9 +1,9 @@
 <template>
   <div style="position: absolute;margin-top: 5%;width: 80%;margin-left: 18%;">
-    <div id="UserBar" style="width:auto;height: 300px">
+    <div id="UserBar" style="width:600px;height: 300px">
 
     </div>
-    <div id="city" style="width: 600px;height: 600px">
+    <div id="city" style="width: 600px;height: 300px">
 
     </div>
   </div>
