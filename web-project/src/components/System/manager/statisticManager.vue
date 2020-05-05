@@ -34,7 +34,6 @@ import china from './../../../assets/china'
       },
       methods:{
             setUserBar(){
-
               var myChart = this.echarts.init(document.getElementById('UserBar'));
               let option={
                 title: {
@@ -61,42 +60,47 @@ import china from './../../../assets/china'
 
                 ]
               }
-
               let sortData=[];
               for(let item in this.AllMsg.user_db_msg)
               {
-                console.log("输出item"+item)
                 if(item==0){
                   sortData.push({
                     name:this.AllMsg.user_db_msg[item].dateCreated,
                     number:1
                   });
-                  console.log("输出等于0时")
                 }
                 if(item!=0)
                 {
-                  for(let items in sortData)
+                  let addFlag=true
+                  for(let items=0; items<sortData.length;items++)
                   {
-                    if(sortData[items].name!=this.AllMsg.user_db_msg[item].dateCreated)
+                    let flag=(sortData[items].name===this.AllMsg.user_db_msg[item].dateCreated);
+                    if(flag)
                     {
-                      sortData.push({
-                        name:this.AllMsg.user_db_msg[item].dateCreated,
-                        number:1
-                      });
-                    }else {
                       sortData[items].number++;
+                      addFlag=false
                     }
-                  }
-                }
+                    }
+                  if(addFlag===true){
+                    sortData.push({
+                      name:this.AllMsg.user_db_msg[item].dateCreated,
+                      number:1
+                    });
 
+                  }
+
+
+
+
+
+                }
               }
+
               for (let item in sortData)
               {
                 option.xAxis.data.push(sortData[item].name);
-                console.log("输出分类结果"+sortData[item].name)
                 option.series[0].data.push(sortData[item].number)
                 option.series[1].data.push(sortData[item].number)
-                console.log("输出分类结果"+sortData[item].number)
               }
               myChart.setOption(option);
             },
@@ -132,38 +136,40 @@ import china from './../../../assets/china'
               let sortData=[];
               for(let item in this.AllMsg.city_db_msg)
               {
-                console.log("输出item"+item)
                 if(item==0){
                   sortData.push({
                     name:this.AllMsg.city_db_msg[item].city,
                     number:1
                   });
-                  console.log("输出等于0时")
-                }
+                        }
                 if(item!=0)
                 {
+                  let addFlag=true
                   for(let items in sortData)
                   {
-                    if(sortData[items].name!=this.AllMsg.city_db_msg[item].city)
+                    if(sortData[items].name===this.AllMsg.city_db_msg[item].city)
                     {
-                      sortData.push({
-                        name:this.AllMsg.city_db_msg[item].city,
-                        number:1
-                      });
-                    }else {
                       sortData[items].number++;
+                      addFlag=false
+
                     }
                   }
+                  if(addFlag===true)
+                  {
+                    sortData.push({
+                      name:this.AllMsg.city_db_msg[item].city,
+                      number:1
+                    });
+                  }
+
                 }
 
               }
               for (let item in sortData)
               {
                 option.xAxis.data.push(sortData[item].name);
-                console.log("输出分类结果"+sortData[item].name)
                 option.series[0].data.push(sortData[item].number)
                 option.series[1].data.push(sortData[item].number)
-                console.log("输出分类结果"+sortData[item].number)
               }
               cityChart.setOption(option);
             },
