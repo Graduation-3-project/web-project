@@ -37,7 +37,7 @@ import china from './../../../assets/china'
               var myChart = this.echarts.init(document.getElementById('UserBar'));
               let option={
                 title: {
-                  text: '用户人数注册'
+                  text: '用户人数注册总人数为：'+this.AllMsg.user_db_msg.length.toString()
                 },
                 tooltip: {},
                 xAxis: {
@@ -104,7 +104,6 @@ import china from './../../../assets/china'
               }
               myChart.setOption(option);
             },
-
             setCity(){
 
               var cityChart = this.echarts.init(document.getElementById('city'));
@@ -242,10 +241,7 @@ import china from './../../../assets/china'
               myChart.setOption(optionMap);
 
             },
-            setChinaData(){
-
-            },
-        randomData() {
+            randomData() {
           return Math.round(Math.random()*500);
         },
         getuserMsg(){
@@ -282,6 +278,7 @@ import china from './../../../assets/china'
             },5000)
           })
         },
+
 
       },
       mounted(){

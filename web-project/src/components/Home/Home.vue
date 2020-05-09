@@ -1,5 +1,9 @@
 <template>
   <div  v-show="!((display==='/Register')||(display==='/Login')||(display==='/ToLogin'))">
+    <div v-once>
+    <img src="./../../assets/网站logo.png"/>
+    </div>
+
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -57,7 +61,10 @@
       </el-aside>
       <el-container>
         <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-main>
+
+
+        </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
     </el-container>
@@ -88,9 +95,25 @@
             {
               this.display=false;
             }
+            if(path==="HomePage")
+            {
+              if(this.loginFlag===true)
+              {
+                let paths='/'+path
+                this.$router.push({path:paths});
+              }else {
+                this.$alert("请先登录")
+              }
+            }else {
             let paths='/'+path
             this.$router.push({path:paths});
+            }
           },
+          GoHomePage(){
+            //去交流园地
+
+          },
+
           GoPersonalCenter(){
 
             if(this.$route.path!="FinishInfo")
@@ -140,8 +163,8 @@
 
         },
       mounted(){
-          //
-        console.log("Home"+this.$route.params.loginFlag);
+
+
         if(this.$cookies.get('userID').id){
           this.getLoginFlag();
         }
@@ -150,6 +173,7 @@
 </script>
 
 <style scoped>
+
   .el-carousel__item h3 {
     color: #475669;
     font-size: 18px;

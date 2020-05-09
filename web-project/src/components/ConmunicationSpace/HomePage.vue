@@ -1,16 +1,22 @@
 <template>
   <el-container>
+
+     <div v-once><img src="./../../assets/交流空间.png"/></div>
     <el-header style="padding: 0;margin: 0">
+
         <div style="display: inline;padding: 0;margin: 0">
           <div class="manspace" v-on:click="GoNextPage('PersonSpace')">
             个人空间
           </div>
         </div>
+      <!--<div style="width: 80%;height:78px;padding: 0;margin: 0;background:rgba(246,121,106,0.21)">
+         很欢迎来到交流空间
+      </div>-->
     </el-header>
 
     <el-container>
       <el-aside width="20%">
-        <h3>热讯推荐</h3>
+        <h3>热讯推荐左</h3>
       </el-aside>
 
       <el-main>
@@ -23,15 +29,20 @@
           <p style="width: 600px;cursor: pointer" v-on:click="GoNextPage('MessageDisPlay',AllMsg.allMessageList[index])">
           {{item.messageContent}}
           </p>
-          <div style="margin-bottom: 0;margin-left: 70%">
+          <div style="margin-bottom: 0;margin-left: 70%;margin-top: 23%">
             <p><span style=" color: rgba(246,29,29,1);font-size: 25px;"><img id="good" v-on:click="good(item.id,index)" class="goodpic" src="./../../assets/good.png"/>{{item.message_goodPointNumber}}</span><span><img id="bad" class="badpic" v-on:click="bad(item.id,index)"  src="./../../assets/bad.png"/>{{item.message_badPointNumber}}</span></p>
           </div>
         </div>
-      </el-main>
+     </el-main>
 
       <el-aside width="30%" style="padding: 0" >
-        <div style="margin-top: 0px">
-          <h3>热讯推荐</h3>
+        <div  style="margin-top: 0px" >
+          <h3>同城信息</h3>
+          <div  style="width:100%;height: 100px; ">
+           <div v-for="item in AllMsg.locationMessage">
+             <p v-on:click="GoNextPage('MessageDisPlay',item)" style="cursor: pointer">{{item.messageTitle}}</p>
+           </div>
+          </div>
         </div>
       </el-aside>
 
@@ -48,11 +59,32 @@
           return{
             AllMsg:{
               allMessageList:[],
+              locationMessage:[],
+              userMsg:{
+                db_User_Msg:''
+              },
             },
           }
       },
       mounted(){
       this.getAllMsg();
+      this.getUserInfo();
+
+
+      setTimeout(()=>{
+
+        console.log("消息列表长度"+this.AllMsg.allMessageList.length)
+        for(let item in this.AllMsg.allMessageList)
+        {
+          console.log("消息列表"+this.AllMsg.allMessageList[item])
+          console.log("个人列表"+this.AllMsg.userMsg.user_db_msg.location.city)
+          if(this.AllMsg.allMessageList[item].messageCity===this.AllMsg.userMsg.user_db_msg.location.city)
+          {
+            this.AllMsg.locationMessage.push(this.AllMsg.allMessageList[item])
+          }
+        }
+        console.log("输出长度"+ this.AllMsg.locationMessage.length)
+      },2000)
       },
       methods:{
         bad(id,num){
@@ -117,6 +149,28 @@
           }).then(function (res) {
             that.AllMsg.allMessageList=res.data;
           });
+        },
+        getUserInfo(){
+          let url="http://127.0.0.1:8080/user/findOneUser.json";
+          let that=this;
+          this.axios({
+            method: 'get',
+            url: url,
+            params:{
+              id:that.$cookies.get('userID').id,
+            },
+            headers:{
+              'Content-Type': 'application/json;charset=UTF-8'
+            }
+          }).then(function (res) {
+            that.AllMsg.userMsg.user_db_msg=res.data;
+
+            console.log("输出城市"+that.AllMsg.userMsg.user_db_msg.location.city)
+          });
+
+
+         // this.$forceUpdate()
+
         }
       }
     }
@@ -124,19 +178,16 @@
 
 <style scoped>
   .el-header, .el-footer {
-    /*background-color: #B3C0D1;
-    color: #333;*/
     text-align: center;
     line-height: 60px;
   }
+
+
   .el-aside {
-    background-color: #D3DCE6;
     color: #333;
     text-align: center;
   }
   .el-main {
-   /* background-color: #E9EEF3;*/
-   /* color: #333;*/
     text-align: center;
   }
   .manspace{
@@ -154,9 +205,6 @@
     width: 620px;
     height: 250px;
     border-radius: 4px;
-    border-left:2px solid #000;
-    border-right:2px solid #000;
-    border-top :2px solid #000;
     border-bottom:2px solid #000;
   }
   .goodpic{

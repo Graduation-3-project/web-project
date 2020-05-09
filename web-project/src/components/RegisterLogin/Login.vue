@@ -131,7 +131,8 @@
           db_User:{
             account_Num:'',
             password_Num:'',
-            id:''
+            id:'',
+            loginFlag:''
           },
           i:0,
           j:2
@@ -349,17 +350,20 @@
             console.log("输出返回信息"+res.data.userPassword)
 
 
-
                if(res.data!='')
                {
                  console.log("这是返回信息")
                  that.user_Msg.db_User.password_Num=res.data.userPassword;
                  that.user_Msg.db_User.account_Num=res.data.userTel;
                  that.user_Msg.db_User.id=res.data.id;
+                 //that.user_Msg.db_User.loginFlag=res.data.userLoginFlag;
                }
                      // that.$router.push({ name: 'Home',params:{loginFlag:false}});
           });
 
+          setTimeout(()=>{
+
+          },1000)
 
           setTimeout(() =>{
             if (this.user_Account_Test() && this.identify_Code_Test()) {
@@ -378,7 +382,13 @@
             }
             this.identify_Code = ''
           },2000);
+          console.log("输出登录标志"+ this.user_Msg.db_User.loginFlag)
+          if( this.user_Msg.db_User.loginFlag==="false")
+          {
 
+          }else {
+          //  this.$alert("该用户已经登录")
+          }
           /*if (this.user_Account_Test() && this.identify_Code_Test()) {
             if (this.final_Test()) {
               if (this.cooki_Msg.local_Msg.login_Flat === true) {
@@ -395,9 +405,7 @@
           }
           this.identify_Code = ''*/
         }
-
       },
-
       cooki_set(){
         //this.$cookies.set(keyName, time)   //设置cooki
         //this.$cookies.get(keyName)       // 获取cooki
