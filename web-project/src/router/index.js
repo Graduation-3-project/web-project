@@ -17,7 +17,7 @@ import PersonSpace from './../components/ConmunicationSpace/PersonSpace'
 //import admin from './../components/System/admin'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -89,4 +89,43 @@ export default new Router({
 
 
   ]
+
 })
+
+import stores from './../store'
+
+router.beforeEach((to, from, next) => {
+
+  console.log("路由首位输出路由地址"+to.path)
+  console.log("路由首位输出路由元信息="+to.meta.type)
+  console.log("输出路由来源信息"+from.path)
+  console.log("输出管理员权限信息"+stores.state.administrator.type)
+  console.log("vuex中的值"+stores.state.count)
+
+
+   let pass=false
+  if(stores.state.administrator.type==="超级管理员")
+  {
+    to.meta.passFlag=true
+  }else if(stores.state.administrator.type===to.meta.type){
+    to.meta.passFlag=true
+  }
+  if(to.meta==='')
+  {
+    pass=true
+  }
+  if(to.meta.passFlag)
+  {
+    pass=to.meta.passFlag
+  }
+if(pass)
+{
+  next()
+}else {
+  next("/admin")
+}
+
+
+
+})
+export default router

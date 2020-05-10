@@ -8,10 +8,12 @@
     <el-form-item style="margin-top: 3%">
       <label style="font-size: 20px;vertical-align:bottom;" >密码</label><el-input type="password" style="margin-left: 10px;" v-model="users.password" />
     </el-form-item>
+
     <el-form-item style="margin-top: 0;padding: 0">
 
       <el-button  v-on:click="loginSystem()" type="primary" style="width: 25%;margin-top: 30px;margin-left: 3.5%">登录</el-button>
     </el-form-item>
+
   </el-form>
 </div>
 </template>
@@ -31,6 +33,7 @@
             }
           }
       },
+
       methods:{
               loginSystem(){
                 let url="http://127.0.0.1:8080/administrator/login"
@@ -43,7 +46,9 @@
                     'Content-Type': 'application/json;charset=UTF-8'
                   },
                 }).then(function (res) {
+
                   if(res.data){
+                    that.getOne();
                     that.GoNextPage()
                   }else {
                     that.$alert("登录失败")
@@ -51,6 +56,25 @@
                 })
 
               },
+              getOne(){
+                let url="http://127.0.0.1:8080/administrator/getOne"
+                let that=this;
+                this.axios({
+                  method:"get",
+                  url:url,
+                  params:{
+                    account:this.users.account
+                  },
+                  headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                  },
+                }).then(function (res) {
+                       that.$store.commit("setAdministrator",res.data);
+                })
+
+
+
+                },
               GoNextPage(){
                 this.$router.addRoutes(my_routes.routes)
                 console.log("LoginSystem")
@@ -74,18 +98,15 @@
       ])*/
         this.$router.addRoutes(my_routes.routes)
         console.log("LoginSystem")
-        this.$router.push({path:'/admin'})
+      //  this.$router.push({path:'/admin'})
 
       }
     }
 </script>
 
 <style scoped>
-
   .el-input{
     width: 25%;
     vertical-align:bottom;
   }
-
-
 </style>

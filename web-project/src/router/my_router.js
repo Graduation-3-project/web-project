@@ -16,7 +16,7 @@ import addUserManager from './../components/System/manager/addUserManager'
 
 Vue.use(Router)
 
-export default {
+export default  {
   routes:[
     {
       path: '/admin',
@@ -24,59 +24,92 @@ export default {
       component: admin,
       children:[
         {
-        path: 'newsManager',
+          path: 'newsManager',
           name:'newsManager',
-        component: newsManager,
+          component: newsManager,
+          meta:{
+            type:'新闻管理员',
+            passFlag:false
+          }
         },
         {
           path: 'noticeManager',
           name: 'noticeManager',
           component: noticeManager,
+          meta:{
+            type:'通告管理员',
+            passFlag:false
+          }
         },
         {
           path: 'statisticManager',
           name: 'statisticManager',
           component: statisticManager,
+
         },
         {
           path: 'userManager',
           name: 'userManager',
           component: userManager,
+          meta:{
+            type:'用户管理员',
+            passFlag:false
+          },
+
         },
         {
             path: 'cityManager',
             name: 'cityManager',
             component: cityManager,
+            meta:{
+            type:'城市管理员',
+            passFlag:false
+          }
         },
         {
           path: 'newsEdit',
           name: 'newsEdit',
           component: newsEdit,
+          meta:{
+            type:'新闻管理员',
+            passFlag:false
+          }
         },
         {
           path: 'newsFirstPageManager',
           name: 'newsFirstPageManager',
           component: newsFirstPageManager,
+          meta:{
+            type:'新闻管理员',
+            passFlag:false
+          }
         },
         {
           path: 'noticeEdit',
           name: 'noticeEdit',
           component: noticeEdit,
+          meta:{
+            type:'通告管理员',
+            passFlag:false
+          }
         },
         {
           path: 'addUserManager',
           name: 'addUserManager',
           component: addUserManager,
+          meta:{
+            type:'用户管理员',
+            passFlag:false
+          }
         },
-
-
-
       ],
       meta:{
         user_type:'admin',
         passFlag:false
       }
     },
-  ]
+  ],
+
 
 };
+

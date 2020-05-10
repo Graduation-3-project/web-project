@@ -23,7 +23,7 @@
              <!-- <el-menu-item index="1-2">选项2</el-menu-item>-->
             </el-menu-item-group>
             <el-menu-item-group >
-              <el-menu-item index="1-2" v-on:click="goNextPage('addUserManager')">添加管理员</el-menu-item>
+              <el-menu-item index="1-2" v-on:click="goNextPage('addUserManager')">添加管理</el-menu-item>
               <!-- <el-menu-item index="1-2">选项2</el-menu-item>-->
             </el-menu-item-group>
           </el-submenu>
@@ -90,10 +90,12 @@
       },
       methods: {
         goNextPage(paths){
+
             if(this.goNextPageFlag!=("/admin/"+paths))
             {
               this.$router.push({path:'/admin/'+paths})
               this.goNextPageFlag='/admin/'+paths;
+
             }
 
           },
@@ -105,8 +107,7 @@
         }
       },
       mounted(){
-        console.log(this.$route.path)
-          console.log("admin")
+        //console.log("输出用户类型"+this.$route.meta.type)
       }
     }
 </script>
