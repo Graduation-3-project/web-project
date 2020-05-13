@@ -325,8 +325,24 @@
           return 1;
         }
       },
-      judegLoginFlag(){
+      setLoginFlag(){
+        let that = this;
+        let url = "http://127.0.0.1:8080/login/setLoginFlag.json";
+        {
+          this.axios({
+            method: 'post',
+            url: url,
+            params: {
+              account: that.user.account_Number
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+            /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
+          }).then(function (res) {
 
+          });
+          }
       },
       login() {
         let db_register_Flag = "";
@@ -346,17 +362,15 @@
             },
             /*  withCredentials:true,*///后端配置过跨域请求前端就不用使用这个
           }).then(function (res) {
-            console.log("输出返回信息"+res.data.userPassword)
-
-
                if(res.data!='')
                {
-                 console.log("这是返回信息")
+
                  that.$store.commit("setUser",res.data);
                  that.user_Msg.db_User.password_Num=res.data.userPassword;
                  that.user_Msg.db_User.account_Num=res.data.userTel;
                  that.user_Msg.db_User.id=res.data.id;
-                 //that.user_Msg.db_User.loginFlag=res.data.userLoginFlag;
+                 that.user_Msg.db_User.loginFlag=res.data.userLoginFlag;
+                 console.log("登录标志"+   that.user_Msg.db_User.loginFlag)
                }
                      // that.$router.push({ name: 'Home',params:{loginFlag:false}});
           });
@@ -364,10 +378,10 @@
           setTimeout(()=>{
 
           },1000)
-
           setTimeout(() =>{
-            if (this.user_Account_Test() && this.identify_Code_Test()) {
+            if (this.user_Account_Test() && this.identify_Code_Test()&&(  that.user_Msg.db_User.loginFlag==="false")) {
               if (this.final_Test()) {
+                this.setLoginFlag();
                 this.cooki_setID();//设置每个用户登录后在本地的id
                 if (this.cooki_Msg.local_Msg.login_Flat === true) {
                   this.cooki_set();
