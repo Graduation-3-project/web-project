@@ -43,6 +43,7 @@
             account:'',
             password:'',
             type:'',//管理员类型
+            loginFlag:false
           },
           options: [
             {

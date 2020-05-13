@@ -29,19 +29,24 @@
             users:{
               password:'',
               account:'',
-              type:''
+              type:'',
+              loginFlag:false
             }
           }
       },
 
       methods:{
               loginSystem(){
+              //  data:that.users,
                 let url="http://127.0.0.1:8080/administrator/login"
                 let that=this;
                 this.axios({
                   method:"post",
                   url:url,
-                  data:that.users,
+                  params:{
+                    password:that.users.password,
+                    account:that.users.account
+                  },
                   headers: {
                     'Content-Type': 'application/json;charset=UTF-8'
                   },
@@ -77,7 +82,6 @@
                 },
               GoNextPage(){
                 this.$router.addRoutes(my_routes.routes)
-                console.log("LoginSystem")
                 this.$router.push({path:'/admin'})
               }
       },
@@ -97,8 +101,7 @@
         },
       ])*/
         this.$router.addRoutes(my_routes.routes)
-        console.log("LoginSystem")
-      //  this.$router.push({path:'/admin'})
+      // this.$router.push({path:'/admin'})
 
       }
     }

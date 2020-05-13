@@ -176,14 +176,10 @@
         this.getNewsMessage();
         let that=this;
         setTimeout(() =>{
-          that.getNewsVideo();
+          //that.getNewsVideo();
         },1000);
 
       },
-      created()
-      {
-
-      }
     }
 </script>
 
