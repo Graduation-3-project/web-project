@@ -12,16 +12,13 @@
           </el-option>
         </el-select>
       </el-form-item>
-
-
+<!--
 
       <el-form-item>
         显示
         {{administrator.id}}
       </el-form-item>
-
-
-
+-->
       <el-input style="width: 24%" placeholder="设置账号" v-model="user.account"/>
       <el-form-item style="margin-top: 3%">
       </el-form-item>
@@ -57,10 +54,7 @@
               value: '通告管理员',
               label: '通告管理员'
             },
-            {
-              value: '城市管理员',
-              label: '城市管理员'
-            },{
+           {
             value: '超级管理员',
             label: '超级管理员'
           },],

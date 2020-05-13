@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
   count: 5,
-  administrator:''
+  administrator:'',
+  user:'',
 }
 const mutations = {
   increment (state) {
@@ -17,6 +18,10 @@ const mutations = {
 
   setAdministrator(state,willSetMsg){
     state.administrator=willSetMsg
+  },
+
+  setUser(state,willSetMsg){
+    state.user=willSetMsg
   },
 
 }

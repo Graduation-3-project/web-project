@@ -325,13 +325,12 @@
           return 1;
         }
       },
+      judegLoginFlag(){
+
+      },
       login() {
         let db_register_Flag = "";
         let that = this;
-
-        console.log("账号密码测试"+that.user.password)
-        console.log("账号密码测试"+that.user.account_Number)
-        console.log("randNumber登录前结果"+this.randNumber)
 
         let url = "http://127.0.0.1:8080/login/judeg.json";
         {
@@ -353,6 +352,7 @@
                if(res.data!='')
                {
                  console.log("这是返回信息")
+                 that.$store.commit("setUser",res.data);
                  that.user_Msg.db_User.password_Num=res.data.userPassword;
                  that.user_Msg.db_User.account_Num=res.data.userTel;
                  that.user_Msg.db_User.id=res.data.id;

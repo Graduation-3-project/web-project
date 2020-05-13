@@ -30,10 +30,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <img :src="news_message.picsUrl"/>
+      <!--<img :src="news_message.picsUrl"/>-->
       <el-button type="primary"  v-on:click="save">保存</el-button>
-      <el-button type="primary"  v-on:click="saveAsTxt">保存成txt</el-button>
-      <el-button type="primary"  v-on:click="savePic">保存封面</el-button>
+      <!--<el-button type="primary"  v-on:click="saveAsTxt">保存成txt</el-button>
+      <el-button type="primary"  v-on:click="savePic">保存封面</el-button>-->
     </div>
 </template>
 

@@ -1,6 +1,8 @@
 <template>
   <el-container>
-      <el-header style="background-color: #545c64;"><h3 style="color: gainsboro;">同城子女后台管理</h3></el-header>
+      <el-header style="background-color: #545c64;display: inline"><h3 style="color: gainsboro;">同城子女后台管理</h3>
+      <el-button type="text"  style="position: absolute;cursor: pointer;top: 10px;left: 90%"   v-on:click="quitLogin">退出</el-button>
+      </el-header>
       <el-col style="width: 18%;background:#545c64;height:800px ">
         <el-menu
 
@@ -28,8 +30,6 @@
             </el-menu-item-group>
           </el-submenu>
 
-
-
           <el-submenu index="2">
             <template slot="title" >
               <i class="el-icon-location"></i>
@@ -42,13 +42,6 @@
               <el-menu-item index="1-3" v-on:click="goNextPage('newsFirstPageManager')">首页管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-
-       <!--   <el-menu-item index="2" >
-            <i class="el-icon-menu"></i>
-            <span slot="title">新闻管理</span>
-
-          </el-menu-item>-->
-
 
           <el-submenu index="3">
             <template slot="title" >
@@ -63,12 +56,10 @@
           </el-submenu>
 
 
-
           <el-menu-item index="4" v-on:click="goNextPage('statisticManager')">
             <i class="el-icon-setting"></i>
             <span slot="title"> 统计分析</span>
           </el-menu-item>
-
 
           <el-menu-item index="5" v-on:click="goNextPage('cityManager')">
             <i class="el-icon-setting"></i>
@@ -88,23 +79,47 @@
           goNextPageFlag:""
         }
       },
+      computed:{
+        administrator(){
+          return this.$store.state.administrator
+        }
+      },
       methods: {
         goNextPage(paths){
-
             if(this.goNextPageFlag!=("/admin/"+paths))
             {
               this.$router.push({path:'/admin/'+paths})
               this.goNextPageFlag='/admin/'+paths;
-
             }
-
           },
         handleOpen(key, keyPath) {
           console.log(key, keyPath);
         },
         handleClose(key, keyPath) {
           console.log(key, keyPath);
-        }
+        },
+        quitLogin(){
+
+          //this.$store.state.administrator.id
+           console.log("输出管理员信息"+ this.$store.state.administrator.id)
+          let url="http://127.0.0.1:8080/administrator/quitLogin"
+          let that=this;
+          this.axios({
+            method:"post",
+            url:url,
+            params:{
+            id:that.$store.state.administrator.id
+            },
+            headers: {
+              'Content-Type': 'application/json;charset=UTF-8'
+            },
+          }).then(function (res) {
+            that.$router.push({path:'/LoginSystem'})
+
+          });
+          }
+
+
       },
       mounted(){
         //console.log("输出用户类型"+this.$route.meta.type)
